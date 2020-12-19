@@ -1,0 +1,12 @@
+FROM node:14.15.3-alpine
+LABEL maintainer "Caio Oliveira - DevChat"
+
+WORKDIR /usr/server
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "run", "server"]
