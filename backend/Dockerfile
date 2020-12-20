@@ -1,5 +1,4 @@
 FROM node:14.15.3-alpine
-LABEL maintainer "Caio Oliveira - DevChat"
 
 WORKDIR /usr/server
 
