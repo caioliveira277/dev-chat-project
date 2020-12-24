@@ -1,0 +1,17 @@
+{
+  "type": "postgres",
+  "host": "database",
+  "port": 5432,
+  "username": "devchat_user",
+  "password": "AF06862D99B20BA96CAB88246832095DA30F2E79241C3EF8291ACE8D0266A337",
+  "database": "devchat",
+  "entities": [
+     "src/app/models/*.ts"
+  ],
+  "migrations": [
+     "src/database/migrations/*.ts"
+  ],
+  "cli": {
+    "migrationsDir": "src/database/migrations"
+  }
+}
