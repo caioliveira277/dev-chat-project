@@ -3,19 +3,25 @@
   "version": "1.0.0",
   "description": "Dev Chat",
   "scripts": {
-    "server": "nodemon src/server/index.ts"
+    "server": "nodemon src/server/index.ts",
+    "typeorm": "npx ts-node ./node_modules/typeorm/cli.js"
   },
   "keywords": [],
   "author": "Caio Oliveira",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1"
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.29"
   },
   "devDependencies": {
-    "@types/body-parser": "^1.19.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.9",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.14.14",
     "nodemon": "^2.0.6",
     "ts-node": "^9.1.1",
