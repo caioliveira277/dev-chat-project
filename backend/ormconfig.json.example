@@ -1,10 +1,10 @@
 {
   "type": "postgres",
-  "host": "database",
-  "port": 5432,
-  "username": "devchat_user",
-  "password": "AF06862D99B20BA96CAB88246832095DA30F2E79241C3EF8291ACE8D0266A337",
-  "database": "devchat",
+  "host": "",
+  "port": 123,
+  "username": "",
+  "password": "",
+  "database": "",
   "entities": [
      "src/app/models/*.ts"
   ],
