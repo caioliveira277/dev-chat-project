@@ -1,3 +1,9 @@
 import { createConnection } from 'typeorm';
 
-createConnection().then(({ isConnected }) => console.log(isConnected));
+class Connection {
+  public async init():Promise<Object> {
+    return await createConnection();
+  }
+}
+
+export default new Connection();
