@@ -27,7 +27,7 @@ export class CreateMessagesGroupsTable1608995791333 implements MigrationInterfac
         },
         {
           name: 'send_date',
-          type: 'timestamp',
+          type: 'timestamp with time zone',
           default: 'now()'
         }
       ]

@@ -51,14 +51,10 @@ class UserController {
     try {
       const { id } = req.params;
 
-      const userToFind = await User.findOne({
-        select: [
-          'id', 'name', 'email', 'profile_status', 'profile_image'
-        ],
-        where: { id }
-      });
+      const userToFind = await User.findOne({ where: { id } });
       if (!userToFind) throw new Exception('Usuário não encontrado', 400);
 
+      userToFind.password = '';
       return res.json(userToFind);
     } catch (error) {
       const { code, message } = Exception.interceptErrors(error);
