@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { User } from '../models/User';
-import { Exception } from '../utilities';
+import { User } from 'app/models/User';
+import { Exception } from 'app/utilities';
 
 class UserController {
   public async create(req: Request, res: Response): Promise<any> {

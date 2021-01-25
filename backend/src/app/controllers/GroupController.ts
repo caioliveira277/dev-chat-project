@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { Group } from "../models/Group";
-import { Exception } from '../utilities';
+import { Group } from 'app/models/Group';
+import { Exception } from 'app/utilities';
 
 class GroupController {
   public async create(req: Request, res: Response): Promise<any> {

@@ -10,7 +10,7 @@ import {
  } from 'typeorm';
 import { IsEmail, Length } from 'class-validator';
 import bcrypt from "bcryptjs";
-import { Exception } from '../utilities';
+import { Exception } from 'app/utilities';
 
 @Entity('users')
 export class User extends BaseEntity {

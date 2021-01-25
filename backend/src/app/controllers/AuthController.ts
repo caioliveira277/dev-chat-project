@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-import User from '../models/User';
+import { User } from 'app/models/User';
 
 class AuthController {
   public async authenticate(req: Request, res: Response) {
