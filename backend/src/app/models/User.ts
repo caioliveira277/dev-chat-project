@@ -6,10 +6,11 @@ import {
   BeforeUpdate, 
   BaseEntity,
   UpdateDateColumn,
-  CreateDateColumn
+  CreateDateColumn,
  } from 'typeorm';
 import { IsEmail, Length } from 'class-validator';
 import bcrypt from "bcryptjs";
+import { Exception } from '../utilities';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -17,23 +18,23 @@ export class User extends BaseEntity {
   id: number;
 
   @Length(5, 20)
-  @Column("varchar", { length: 255 })
+  @Column()
   name: string;
   
   @Length(5, 40)
-  @Column("varchar", { length: 255 })
   @IsEmail()
+  @Column()
   email: string;
   
-  @Column("varchar", { length: 255 })
+  @Column()
   password: string;
   
   @Length(5, 30)
-  @Column("varchar", { length: 255 })
+  @Column()
   profile_status: string;
   
   @Length(5, 30)
-  @Column("varchar", { length: 255 })
+  @Column()
   profile_image: string;
 
   @CreateDateColumn({ type: 'timestamp with time zone' })
@@ -44,7 +45,10 @@ export class User extends BaseEntity {
 
   @BeforeInsert()
   @BeforeUpdate()
-  hashPassword() {
+  validate() {
     this.password = bcrypt.hashSync(this.password, 8);
+    if(!(new RegExp(/^[a-z]{2,}\ [a-z]{2,}/gi).test(this.name)))
+      throw new Exception("Informe o seu nome e sobrenome", 400);
+    
   }
 }

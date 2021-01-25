@@ -37,7 +37,7 @@ class UserController {
       userToUpdate.email = email;
       userToUpdate.profile_status = profile_status;
       userToUpdate.profile_image = profile_image;
-      userToUpdate.save();
+      await userToUpdate.save();
 
       userToUpdate.password = '';
       return res.json(userToUpdate);
