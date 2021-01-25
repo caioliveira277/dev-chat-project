@@ -72,7 +72,7 @@ class UserController {
       const isDeleted = await userToDelete.remove();
       if (!isDeleted) throw new Exception('Falha ao remover usuário', 500);
 
-      return res.json({ message: 'Usuário deletedo com sucesso' })
+      return res.json({ message: 'Usuário deletado com sucesso' })
     } catch (error) {
       const { code, message } = Exception.interceptErrors(error);
       return res.status(code).json({ message })
