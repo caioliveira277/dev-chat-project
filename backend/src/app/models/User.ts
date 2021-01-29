@@ -7,10 +7,12 @@ import {
   BaseEntity,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToMany
  } from 'typeorm';
 import { IsEmail, Length } from 'class-validator';
 import bcrypt from "bcryptjs";
 import { Exception } from 'app/utilities';
+import { UserGroup } from "./UserGroup";
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -43,12 +45,15 @@ export class User extends BaseEntity {
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   updated_at: Date;
 
+  @OneToMany(() => UserGroup, userGroup => userGroup.user)
+  userGroup!: UserGroup[];
+
   @BeforeInsert()
   @BeforeUpdate()
   validate() {
     this.password = bcrypt.hashSync(this.password, 8);
-    if(!(new RegExp(/^[a-z]{2,}\ [a-z]{2,}/gi).test(this.name)))
+    if(!(new RegExp(/^[a-z]{2,}\ [a-z]{2,}/gi).test(this.name))) {
       throw new Exception("Informe o seu nome e sobrenome", 400);
-    
+    }
   }
 }

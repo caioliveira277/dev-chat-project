@@ -5,23 +5,23 @@ import {
   BaseEntity,
   UpdateDateColumn,
   CreateDateColumn,
-  OneToMany
  } from 'typeorm';
 import { Length } from 'class-validator';
-import { UserGroup } from "./UserGroup";
+export type typeMessage = 'text' | 'attachment';
 
-@Entity('groups')
+@Entity('messages')
 export class Group extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Length(5, 20)
   @Column()
-  name: string;
+  body: string;
 
-  @Length(5, 100)
-  @Column()
-  description: string;
+  @Column({
+    type: 'enum',
+    enum: ['text', 'attachment'],
+  })
+  type: typeMessage;
   
   @Length(5, 30)
   @Column()
@@ -32,7 +32,4 @@ export class Group extends BaseEntity {
 
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   updated_at: Date;
-
-  @OneToMany(() => UserGroup, userGroup => userGroup.group)
-  userGroup!: UserGroup[];
 }
