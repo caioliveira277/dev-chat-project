@@ -1,5 +1,5 @@
-declare namespace Express {
+namespace Express {
   export interface Request {
-    userId: string
+    userId: number
   }
 }

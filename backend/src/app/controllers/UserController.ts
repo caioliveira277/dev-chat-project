@@ -64,7 +64,7 @@ class UserController {
 
   public async delete(req: Request, res: Response): Promise<any> {
     try {
-      const { id } = req.params;
+      const id = req.userId;
 
       const userToDelete = await User.findOne({ where: { id } });
       if (!userToDelete) throw new Exception('Usuário não encontrado', 400);

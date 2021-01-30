@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { Exception } from 'app/utilities';
 import jwt from 'jsonwebtoken';
 
 interface ITokenPayload {
@@ -7,22 +8,23 @@ interface ITokenPayload {
   exp: number
 };
 
-export default function authMiddleware(
-  req: Request, res: Response, next: NextFunction
-) {
-  const { authorization } = req.headers;
-
-  if(!authorization) return res.sendStatus(401);
-
-  const token = authorization.replace('Bearer', '').trim();
-
+export default function authMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
-    const dataJwt = jwt.verify(token, process.env.JWT_SECRET!);
+    const { authorization } = req.headers;
+
+    if(!authorization) throw new Exception('Falha de autenticação', 401);
+    const token = authorization.replace('Bearer', '').trim();
+
+    const dataJwt = jwt.verify(token, process.env.JWT_SECRET!, {
+      ignoreExpiration: process.env.MODE !== 'dev' ? true:false
+    });
     
     const { id } = dataJwt as ITokenPayload;
+    req.userId = Number(id);
 
-    req.userId = id;
-  } catch {
-    return res.sendStatus(401);
+    next();
+  } catch (error) {
+    const { code, message } = Exception.interceptErrors(error);
+    return res.status(code).json({ message })
   }
 }

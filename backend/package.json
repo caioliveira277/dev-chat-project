@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Dev Chat",
   "scripts": {
-    "server": "nodemon -r tsconfig-paths/register src/server/index.ts",
+    "server": "nodemon -r tsconfig-paths/register --files src/server/index.ts",
     "typeorm": "npx ts-node ./node_modules/typeorm/cli.js"
   },
   "keywords": [],

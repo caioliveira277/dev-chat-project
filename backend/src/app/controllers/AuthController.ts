@@ -1,29 +1,33 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
 import { User } from 'app/models/User';
+import { Exception } from 'app/utilities';
+
 
 class AuthController {
   public async authenticate(req: Request, res: Response) {
-    const repository = getRepository(User);
-    const { email, password } = req.body;
-
-    const user = await repository.findOne({ where: { email } });
-
-    if(!user) return res.sendStatus(401);
-
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if(!isValidPassword) return res.sendStatus(401);
-
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
-
-    return res.json({
-      ...user,
-      password: null,
-      token
-    });
+    try {
+      const { email, password } = req.body;
+  
+      const userExists = await User.findOne({ where: { email } });
+  
+      if(!userExists) throw new Exception('Usuário não encontrado', 400);
+  
+      const isValidPassword = await bcrypt.compare(password, userExists.password);
+      if(!isValidPassword) throw new Exception('Senha inválida', 400);
+  
+      const token = jwt.sign({ id: userExists.id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
+  
+      return res.json({
+        ...userExists,
+        password: null,
+        token
+      });
+    } catch (error) {
+      const { code, message } = Exception.interceptErrors(error);
+      return res.status(code).json({ message })
+    }
   }
 }
 
