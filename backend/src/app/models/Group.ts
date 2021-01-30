@@ -8,7 +8,8 @@ import {
   OneToMany
  } from 'typeorm';
 import { Length } from 'class-validator';
-import { UserGroup } from "./UserGroup";
+import { UserGroup } from './UserGroup';
+import { MessageGroup } from './MessageGroup';
 
 @Entity('groups')
 export class Group extends BaseEntity {
@@ -35,4 +36,7 @@ export class Group extends BaseEntity {
 
   @OneToMany(() => UserGroup, userGroup => userGroup.group)
   userGroup!: UserGroup[];
+
+  @OneToMany(() => MessageGroup, messageGroup => messageGroup.message)
+  messageGroup!: MessageGroup[];
 }

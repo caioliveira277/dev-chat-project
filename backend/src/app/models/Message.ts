@@ -5,12 +5,14 @@ import {
   BaseEntity,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToMany
  } from 'typeorm';
 import { Length } from 'class-validator';
+import { MessageGroup } from './MessageGroup';
 export type typeMessage = 'text' | 'attachment';
 
 @Entity('messages')
-export class Group extends BaseEntity {
+export class Message extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,13 +25,12 @@ export class Group extends BaseEntity {
   })
   type: typeMessage;
   
-  @Length(5, 30)
-  @Column()
-  image: string;
-
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at: Date;
 
   @UpdateDateColumn({ type: 'timestamp with time zone' })
   updated_at: Date;
+
+  @OneToMany(() => MessageGroup, messageGroup => messageGroup.message)
+  messageGroup!: MessageGroup[];
 }

@@ -1,8 +1,9 @@
 import express from 'express';
 
 import UserController from 'app/controllers/UserController';
-import GroupController from "app/controllers/GroupController";
-import UserGroupController from "app/controllers/UserGroupController";
+import GroupController from 'app/controllers/GroupController';
+import UserGroupController from 'app/controllers/UserGroupController';
+import MessageGroupController from 'app/controllers/MessageGroupController'; 
 
 const router = express.Router();
 
@@ -20,5 +21,8 @@ router.post('/user-group', UserGroupController.create);
 router.get('/find-user-groups/:id', UserGroupController.findUserGroups);
 router.get('/find-group-users/:id', UserGroupController.findGroupUsers);
 router.delete('/user-group', UserGroupController.delete);
+
+router.post('/message', MessageGroupController.create);
+router.get('/group-messages/:id', MessageGroupController.findGroupMessages);
 
 export default router;

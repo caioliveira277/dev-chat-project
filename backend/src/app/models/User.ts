@@ -13,6 +13,7 @@ import { IsEmail, Length } from 'class-validator';
 import bcrypt from "bcryptjs";
 import { Exception } from 'app/utilities';
 import { UserGroup } from "./UserGroup";
+import { MessageGroup } from "./MessageGroup";
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -47,6 +48,9 @@ export class User extends BaseEntity {
 
   @OneToMany(() => UserGroup, userGroup => userGroup.user)
   userGroup!: UserGroup[];
+
+  @OneToMany(() => MessageGroup, messageGroup => messageGroup.user)
+  messageGroup!: MessageGroup[];
 
   @BeforeInsert()
   @BeforeUpdate()
