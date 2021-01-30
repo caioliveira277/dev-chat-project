@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
 export class CreateUsersGroupsTable1608992469323 implements MigrationInterface {
 
@@ -22,12 +22,12 @@ export class CreateUsersGroupsTable1608992469323 implements MigrationInterface {
         },
         {
           name: 'created_at',
-          type: 'timestamp',
+          type: 'timestamp with time zone',
           default: 'now()'
         },
         {
           name: 'updated_at',
-          type: 'timestamp',
+          type: 'timestamp with time zone',
           default: 'now()'
         }
       ]

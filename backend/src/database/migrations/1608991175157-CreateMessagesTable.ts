@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateMessagesTable1608991175157 implements MigrationInterface {
 
@@ -25,12 +25,12 @@ export class CreateMessagesTable1608991175157 implements MigrationInterface {
         },
         {
           name: 'created_at',
-          type: 'timestamp',
+          type: 'timestamp with time zone',
           default: 'now()'
         },
         {
           name: 'updated_at',
-          type: 'timestamp',
+          type: 'timestamp with time zone',
           default: 'now()'
         }
       ]
