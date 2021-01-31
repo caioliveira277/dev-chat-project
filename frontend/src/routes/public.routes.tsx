@@ -9,6 +9,7 @@ const PublicRoutes: React.FC = () => {
     <>
       <Route exact path="/login" component={Pages.Login} />
       <Route exact path="/signin" component={Pages.Signin} />
+      <Route exact path="/chat" component={Pages.Chat} />
     </>
   );
 }
