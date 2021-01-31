@@ -15,6 +15,7 @@ import {
   ContainerSocialLogin,
   LinkNewAccount
 } from './styles';
+import { Link } from 'react-router-dom';
 import { IoLogoGoogle } from 'react-icons/io';
 import { AiFillGithub } from 'react-icons/ai';
 
@@ -27,22 +28,22 @@ const Login: React.FC = () => {
     <Containers.Main backgroundTheme='contrast' centralized={true}>
       <Container animate={isVisible ? 'visible':'hidden'}>
         <TextContainer>
-          <Title>Acesse sua conta:</Title>
-          <Subtitle>Acesse sua conta selecionando uma das opções abaixo:</Subtitle>
+          <Title>Acesse sua conta</Title>
+          <Subtitle>Acesse selecionando uma das opções abaixo:</Subtitle>
         </TextContainer>
         <LoginContainer>
           <Form>
             <Inputs.LabelInput
               inputType='email'
               labelText='Email:'
-              placeholder='Informe seu email'
+              placeholder='Informe o seu email'
               autoCompleted='email'
               require={true}
               />
             <Inputs.LabelInput
               inputType='password'
               labelText='Senha:'
-              placeholder='Informe sua senha'
+              placeholder='Informe a sua senha'
               require={true}
             />
             <Buttons.ButtonTheme
@@ -74,7 +75,7 @@ const Login: React.FC = () => {
           </ContainerSocialLogin>
         </LoginContainer>
         <LinkNewAccount>
-          Novo por aqui? <a href="#">Criar uma conta</a>
+          Novo por aqui? <Link to='/signin'>Criar uma conta</Link>
         </LinkNewAccount>
       </Container>
     </Containers.Main>
