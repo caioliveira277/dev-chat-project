@@ -1,5 +1,5 @@
 import { createGlobalStyle, DefaultTheme } from 'styled-components';
-import { darken } from 'polished';
+import { darken, lighten } from 'polished';
 
 export type validColors = 'primary'|'secondary'|'tertiary'|'contrast';
 export const light: DefaultTheme = {
@@ -18,12 +18,22 @@ export const GlobalStyle = createGlobalStyle`
     outline: 0;
     box-sizing: border-box;
     font-family: 'Noto Sans KR', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scrollbar-width: thin;
   }
-  h1, h2, h3, p, label {
-    color: ${({theme}) => theme.colors.tertiary};
+  ::-webkit-scrollbar-track {
+    background: ${({theme}) => lighten(0.1, theme.colors.tertiary)};
   }
-  input::placeholder {
-    color: #A8A8A8;
+  ::-webkit-scrollbar {
+      width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      background: ${({theme}) => darken(0.3, theme.colors.contrast)};
+  }
+  body {
+    background: ${({theme}) => theme.colors.contrast};
   }
   a {
     color: #16739a;
@@ -31,8 +41,10 @@ export const GlobalStyle = createGlobalStyle`
       color: ${darken(0.1, '#16739a')};
     }
   }
-
-  body {
-    background: ${({theme}) => theme.colors.contrast};
+  h1, h2, h3, p, label {
+    color: ${({theme}) => theme.colors.tertiary};
+  }
+  input::placeholder {
+    color: #A8A8A8;
   }
 `;

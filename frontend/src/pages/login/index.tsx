@@ -15,15 +15,21 @@ import {
   ContainerSocialLogin,
   LinkNewAccount
 } from './styles';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { IoLogoGoogle } from 'react-icons/io';
 import { AiFillGithub } from 'react-icons/ai';
 
 const Login: React.FC = () => {
+  const history = useHistory();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const handlerSubmit = (): void => {
+    history.push('/chat');
+  }
+
   return (
     <Containers.Main backgroundTheme='contrast' centralized={true}>
       <Container animate={isVisible ? 'visible':'hidden'}>
@@ -32,7 +38,7 @@ const Login: React.FC = () => {
           <Subtitle>Acesse selecionando uma das opções abaixo:</Subtitle>
         </TextContainer>
         <LoginContainer>
-          <Form>
+          <Form onSubmit={handlerSubmit}>
             <Inputs.LabelInput
               inputType='email'
               labelText='Email:'
@@ -49,7 +55,7 @@ const Login: React.FC = () => {
             <Buttons.ButtonTheme
               buttonType='submit'
               backgroundTheme='primary'
-              textCustomColor='#fff' 
+              textCustomColor='#fff'
             >
               Entrar
             </Buttons.ButtonTheme>
