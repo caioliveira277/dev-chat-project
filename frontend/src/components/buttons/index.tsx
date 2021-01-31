@@ -7,7 +7,8 @@ export const ButtonTheme: React.FC<IButtonTheme> = ({
   backgroundTheme,
   textColorTheme,
   textCustomColor,
-  buttonType
+  buttonType,
+  outlined = false
 }) => {
   return (
     <ButtonDefault
@@ -16,6 +17,7 @@ export const ButtonTheme: React.FC<IButtonTheme> = ({
       backgroundTheme={backgroundTheme}
       textColorTheme={textColorTheme}
       textCustomColor={textCustomColor}
+      outlined={outlined}
     >
       {children}
     </ButtonDefault>

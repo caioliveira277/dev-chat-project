@@ -5,9 +5,10 @@ import { darken } from 'polished';
 export interface IButtonTheme 
   extends utils.IdynamicBackgroundColor, utils.IdynamicTextColor {
     buttonType: string;
+    outlined?: boolean;
 }
 export const ButtonDefault = styled.button<IButtonTheme>`
-  border: none;
+  border: 1px solid ${(props) => utils.dynamicBackgroundColor(props)};
   border-radius: 5px;
   font-size: 18px;
   color: ${utils.dynamicTextColor};
@@ -19,8 +20,15 @@ export const ButtonDefault = styled.button<IButtonTheme>`
   align-items: center;
   justify-content: center;
   box-shadow: 2px 2px 5px rgba(41, 44, 43, 0.1);
-  background-color: ${utils.dynamicBackgroundColor};
+  background-color: ${(props) => 
+    props.outlined ? 
+      props.backgroundCustomColor : 
+      utils.dynamicBackgroundColor(props)};
   &:hover {
-    background-color: ${(props) => darken(0.05, utils.dynamicBackgroundColor(props))}
+    color: ${(props) => props.outlined ? props.backgroundCustomColor : utils.dynamicTextColor(props)};
+    background-color: ${(props) => 
+      props.outlined ? 
+        utils.dynamicBackgroundColor(props) :
+        darken(0.05, utils.dynamicBackgroundColor(props))};
   }
 `;
