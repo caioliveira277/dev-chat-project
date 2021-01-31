@@ -6,7 +6,10 @@ import * as Pages from 'pages';
 
 const PublicRoutes: React.FC = () => {
   return (
-    <Route path="/" component={Pages.Login} />
+    <>
+      <Route exact path="/login" component={Pages.Login} />
+      <Route exact path="/signin" component={Pages.Signin} />
+    </>
   );
 }
 
