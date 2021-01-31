@@ -6,6 +6,7 @@ export interface IButtonTheme
   extends utils.IdynamicBackgroundColor, utils.IdynamicTextColor {
     buttonType: string;
     outlined?: boolean;
+    onClick?: () => void;
 }
 export const ButtonDefault = styled.button<IButtonTheme>`
   border: 1px solid ${(props) => utils.dynamicBackgroundColor(props)};
