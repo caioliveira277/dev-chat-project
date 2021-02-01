@@ -14,11 +14,11 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { ThemeContext } from 'styled-components';
 import { darken } from 'polished';
 import { SearchInput } from 'components/inputs';
-import { CardGroupList } from 'components/cards';
+import ChatList from './chat-list';
 import { Link } from 'react-router-dom';
 import { MdChat, MdStar, MdSettings } from 'react-icons/md';
 
-export const ChatSidebar: React.FC = () => {
+const Sidebar: React.FC = () => {
   const theme = useContext(ThemeContext);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   useEffect(() => {
@@ -39,7 +39,7 @@ export const ChatSidebar: React.FC = () => {
         <Separator />
         <SearchInput />
       </ContainerPadding>
-      <CardGroupList />
+      <ChatList />
       <ContainerTab animate={isVisible ? 'visible':'hidden'}>
         <Link to='/'><MdChat size='26px' /></Link>
         <Link to='/'><MdStar size='26px' /></Link>
@@ -48,3 +48,5 @@ export const ChatSidebar: React.FC = () => {
     </Aside>
   );
 }
+
+export default Sidebar;
