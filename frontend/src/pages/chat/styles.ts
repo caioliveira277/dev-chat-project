@@ -6,4 +6,5 @@ export const Container = styled.section`
   max-width: 1320px;
   background: ${({theme}) => theme.colors.secondary};
   display: flex;
+  box-shadow: 2px 4px 5px rgb(0 0 0 / 0.30);
 `;

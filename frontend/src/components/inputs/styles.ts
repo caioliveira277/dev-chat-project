@@ -25,7 +25,7 @@ export const Input = styled.input`
   box-shadow: 0px 1px 4px 2px rgba(41,44,43,0.1);
   border-radius: 5px;
   border: none;
-  background: #fff;
+  background-color: #fff;
   &:focus {
     box-shadow: 0px 1px 4px 2px ${({theme}) => lighten(0.25, theme.colors.primary)};
   }
