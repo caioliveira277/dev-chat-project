@@ -54,23 +54,7 @@ export const Separator = styled.div`
   border: 1px solid ${({theme}) => lighten(0.1, theme.colors.tertiary)};
 `;
 
-export const ContainerTab = styled(motion.nav).attrs(() => ({
-  initial: 'hidden',
-  variants: {
-    hidden: { 
-      opacity: 0,
-      y: 50,
-    },
-    visible: { 
-      opacity: 1,
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: ['anticipate']
-      } 
-    },
-  }
-}))`
+export const ContainerTab = styled(motion.nav)`
   background-color: #444;
   bottom: 0;
   display: flex;

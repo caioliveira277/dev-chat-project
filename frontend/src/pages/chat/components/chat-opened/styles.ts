@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.section`
   background-color: ${({theme}) => theme.colors.secondary};
@@ -42,4 +43,7 @@ export const Name = styled.h2`
 export const LinkInfo = styled.a`
   color: ${({theme}) => theme.colors.secondary};
   display: flex;
+  &:hover {
+    color: ${({theme}) => darken(0.07, theme.colors.secondary)};
+  }
 `;

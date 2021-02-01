@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import {
   Aside,
   UserProfile,
@@ -20,10 +20,6 @@ import { MdChat, MdStar, MdSettings } from 'react-icons/md';
 
 const Sidebar: React.FC = () => {
   const theme = useContext(ThemeContext);
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
 
   return (
     <Aside>
@@ -40,7 +36,7 @@ const Sidebar: React.FC = () => {
         <SearchInput />
       </ContainerPadding>
       <ChatList />
-      <ContainerTab animate={isVisible ? 'visible':'hidden'}>
+      <ContainerTab>
         <Link to='/'><MdChat size='26px' /></Link>
         <Link to='/'><MdStar size='26px' /></Link>
         <Link to='/'><MdSettings size='26px' /></Link>

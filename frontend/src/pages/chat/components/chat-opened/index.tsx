@@ -8,7 +8,8 @@ import {
   LinkInfo
 } from './styles';
 import { BsFillInfoCircleFill } from 'react-icons/bs';
-import TextArea from './textarea';
+import TextArea from './input-message';
+import MessageList from './message-list';
 
 const ChatOpened: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const ChatOpened: React.FC = () => {
           <BsFillInfoCircleFill size='26px' />
         </LinkInfo>
       </Header>
+      <MessageList />
       <TextArea />
     </Container>
   );
