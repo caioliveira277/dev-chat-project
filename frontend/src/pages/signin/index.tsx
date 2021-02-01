@@ -55,7 +55,7 @@ const Signin: React.FC = () => {
               require={true}
             />
             <Buttons.ButtonTheme
-              buttonType='submit'
+              type='submit'
               backgroundTheme='primary'
               backgroundCustomColor='#fff'
               outlined={true}

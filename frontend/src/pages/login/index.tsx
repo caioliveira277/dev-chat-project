@@ -53,7 +53,7 @@ const Login: React.FC = () => {
               require={true}
             />
             <Buttons.ButtonTheme
-              buttonType='submit'
+              type='submit'
               backgroundTheme='primary'
               textCustomColor='#fff'
             >
@@ -63,7 +63,7 @@ const Login: React.FC = () => {
           <Separator />
           <ContainerSocialLogin>
             <Buttons.ButtonTheme
-              buttonType='button'
+              type='button'
               backgroundTheme='tertiary'
               textCustomColor='#fff'
             >
@@ -71,7 +71,7 @@ const Login: React.FC = () => {
               Entrar com o Google
             </Buttons.ButtonTheme>
             <Buttons.ButtonTheme
-              buttonType='button'
+              type='button'
               backgroundTheme='tertiary'
               textCustomColor='#fff'
             >
