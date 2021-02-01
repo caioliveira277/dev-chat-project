@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import * as utils from 'components/utils';
 import { darken } from 'polished';
 
+type buttonType = 'submit'|'reset'|'button';
 export interface IButtonTheme 
   extends utils.IdynamicBackgroundColor, utils.IdynamicTextColor {
-    buttonType: string;
+    type: buttonType;
     outlined?: boolean;
     onClick?: () => void;
 }
@@ -32,4 +33,14 @@ export const ButtonDefault = styled.button<IButtonTheme>`
         utils.dynamicBackgroundColor(props) :
         darken(0.05, utils.dynamicBackgroundColor(props))};
   }
+`;
+
+export interface IButtonThemeRoundedProps {
+  size: string;
+}
+export const ButtomDefaultRounded = styled(ButtonDefault)<IButtonThemeRoundedProps>`
+  width: ${({size}) => size};
+  height: ${({size}) => size};
+  border-radius: 50%;
+  padding: 10px;
 `;

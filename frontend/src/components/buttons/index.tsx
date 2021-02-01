@@ -1,7 +1,9 @@
 import React from 'react';
 import { 
   ButtonDefault, 
-  IButtonTheme
+  IButtonTheme,
+  ButtomDefaultRounded,
+  IButtonThemeRoundedProps
 } from './styles';
 
 export const ButtonTheme: React.FC<IButtonTheme> = ({
@@ -10,13 +12,13 @@ export const ButtonTheme: React.FC<IButtonTheme> = ({
   backgroundTheme,
   textColorTheme,
   textCustomColor,
-  buttonType,
+  type,
   outlined = false,
   onClick
 }) => {
   return (
     <ButtonDefault
-      buttonType={buttonType}
+      type={type}
       backgroundCustomColor={backgroundCustomColor}
       backgroundTheme={backgroundTheme}
       textColorTheme={textColorTheme}
@@ -26,5 +28,32 @@ export const ButtonTheme: React.FC<IButtonTheme> = ({
     >
       {children}
     </ButtonDefault>
+  );
+}
+
+export const ButtonThemeRounded: React.FC<IButtonTheme & IButtonThemeRoundedProps> = ({
+  children,
+  backgroundCustomColor,
+  backgroundTheme,
+  textColorTheme,
+  textCustomColor,
+  type,
+  outlined = false,
+  onClick,
+  size
+}) => {
+  return (
+    <ButtomDefaultRounded
+      type={type}
+      backgroundCustomColor={backgroundCustomColor}
+      backgroundTheme={backgroundTheme}
+      textColorTheme={textColorTheme}
+      textCustomColor={textCustomColor}
+      outlined={outlined}
+      onClick={onClick}
+      size={size}
+    >
+      {children}
+    </ButtomDefaultRounded>
   );
 }
