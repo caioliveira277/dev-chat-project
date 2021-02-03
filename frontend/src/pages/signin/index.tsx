@@ -30,26 +30,26 @@ const Signin: React.FC = () => {
         <LoginContainer>
           <Form>
             <Inputs.LabelInput
-              inputType='text'
+              type='text'
               labelText='Nome:'
               placeholder='Informe o seu nome'
               require={true}
             />
             <Inputs.LabelInput
-              inputType='email'
+              type='email'
               labelText='Email:'
               placeholder='Informe o seu email'
               autoCompleted='email'
               require={true}
             />
             <Inputs.LabelInput
-              inputType='password'
+              type='password'
               labelText='Senha:'
               placeholder='Informe a sua senha'
               require={true}
             />
             <Inputs.LabelInput
-              inputType='password'
+              type='password'
               labelText='Confirmar senha:'
               placeholder='Confirme a sua senha'
               require={true}
