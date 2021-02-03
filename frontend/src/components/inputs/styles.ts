@@ -1,12 +1,12 @@
+import { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { lighten } from 'polished';
 
-export interface ILabelInputProps {
+export interface ILabelInputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelText: string;
-  placeholder: string;
-  inputType: string;
+  type: string;
   autoCompleted?: string;
-  require?: boolean;
+  require: boolean;
 };
 export const Fieldset = styled.fieldset`
   border: none;

@@ -12,18 +12,24 @@ import { HiSearch } from 'react-icons/hi';
 export const LabelInput: React.FC<ILabelInputProps> = ({
   labelText,
   placeholder,
-  inputType,
+  type,
   autoCompleted = '',
-  require = false
+  require = false,
+  value,
+  onChange,
+  name
 }) => {
   return (
     <Fieldset>
       <Label>{labelText}</Label>
       <Input
-        type={inputType}
+        type={type}
         placeholder={placeholder}
         autoComplete={autoCompleted}
         required={require}
+        value={value}
+        onChange={onChange}
+        name={name}
       />
     </Fieldset>
   );
