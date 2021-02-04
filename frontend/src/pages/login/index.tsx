@@ -40,14 +40,14 @@ const Login: React.FC = () => {
         <LoginContainer>
           <Form onSubmit={handlerSubmit}>
             <Inputs.LabelInput
-              inputType='email'
+              type='email'
               labelText='Email:'
               placeholder='Informe o seu email'
               autoCompleted='email'
               require={true}
               />
             <Inputs.LabelInput
-              inputType='password'
+              type='password'
               labelText='Senha:'
               placeholder='Informe a sua senha'
               require={true}
