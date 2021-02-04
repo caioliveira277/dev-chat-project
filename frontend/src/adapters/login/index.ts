@@ -6,8 +6,8 @@ export interface IAuthEntries {
   password: string;
 };
 export class Auth {
-  email: string
-  password: string;
+  private email: string
+  private password: string;
 
   constructor(entries: IAuthEntries) {
     this.email = entries.email;
@@ -19,5 +19,9 @@ export class Auth {
       email: this.email,
       password: this.password
     });
+  }
+
+  static saveToken(token: string): void {
+    sessionStorage.setItem('auth', `Bearer ${token}`);
   }
 };

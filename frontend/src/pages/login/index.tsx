@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEventHandler, FormEventHandler } from 'react';
 import { 
   Containers,
   Inputs,
@@ -18,17 +18,39 @@ import {
 import { Link, useHistory } from 'react-router-dom';
 import { IoLogoGoogle } from 'react-icons/io';
 import { AiFillGithub } from 'react-icons/ai';
+import { Auth, IAuthEntries } from 'adapters/login';
 
 const Login: React.FC = () => {
   const history = useHistory();
+  const [userEntries, setUserEntries] = useState<IAuthEntries>({} as IAuthEntries);
   const [isVisible, setIsVisible] = useState<boolean>(false);
+
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const handlerSubmit = (): void => {
-    history.push('/chat');
+  const handlerChange: ChangeEventHandler<HTMLInputElement> = ({target}) => {
+    setUserEntries({
+      ...userEntries,
+      [target.name]: target.value
+    });
+  };
+
+  const handlerSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    const auth = new Auth(userEntries);
+    
+    auth.getAccess()
+      .then(({data}) => {
+        Auth.saveToken(data.token);
+        console.log(data.id);
+        history.push('/chat');
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
+
 
   return (
     <Containers.Main backgroundTheme='contrast' centralized={true}>
@@ -45,12 +67,18 @@ const Login: React.FC = () => {
               placeholder='Informe o seu email'
               autoCompleted='email'
               require={true}
-              />
+              name='email'
+              value={userEntries.email || ''}
+              onChange={handlerChange}
+            />
             <Inputs.LabelInput
               type='password'
               labelText='Senha:'
               placeholder='Informe a sua senha'
               require={true}
+              name='password'
+              value={userEntries.password || ''}
+              onChange={handlerChange}
             />
             <Buttons.ButtonTheme
               type='submit'

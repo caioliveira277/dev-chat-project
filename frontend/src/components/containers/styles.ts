@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { validColors } from 'theme';
 import { IdynamicBackgroundColor, dynamicBackgroundColor } from 'components/utils';
 
 export interface IMainContainerProps extends IdynamicBackgroundColor {
