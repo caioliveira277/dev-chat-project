@@ -4,6 +4,7 @@ import {
   Redirect
 } from "react-router-dom";
 import * as Pages from 'pages';
+import { Session } from 'contexts';
 
 const PublicRoutes: React.FC = () => {
   return (
@@ -11,9 +12,11 @@ const PublicRoutes: React.FC = () => {
       <Route path="*">
         <Redirect to="/login" />
       </Route>
-      <Route exact path="/login" component={Pages.Login} />
-      <Route exact path="/signin" component={Pages.Signin} />
-      <Route exact path="/chat" component={Pages.Chat} />
+      <Session.Provider>
+        <Route exact path="/login" component={Pages.Login} />
+        <Route exact path="/signin" component={Pages.Signin} />
+        <Route exact path="/chat" component={Pages.Chat} />
+      </Session.Provider>
     </>
   );
 }

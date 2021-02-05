@@ -1,4 +1,10 @@
-import React, { useEffect, useState, ChangeEventHandler, FormEventHandler } from 'react';
+import React, { 
+  useEffect, 
+  useState, 
+  ChangeEventHandler, 
+  FormEventHandler,
+  useContext 
+} from 'react';
 import { 
   Containers,
   Inputs,
@@ -19,9 +25,11 @@ import { Link, useHistory } from 'react-router-dom';
 import { IoLogoGoogle } from 'react-icons/io';
 import { AiFillGithub } from 'react-icons/ai';
 import { Auth, IAuthEntries } from 'adapters/login';
+import { Session } from 'contexts';
 
 const Login: React.FC = () => {
   const history = useHistory();
+  const { setSession } = useContext(Session.Context);
   const [userEntries, setUserEntries] = useState<IAuthEntries>({} as IAuthEntries);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -43,7 +51,7 @@ const Login: React.FC = () => {
     auth.getAccess()
       .then(({data}) => {
         Auth.saveToken(data.token);
-        console.log(data.id);
+        setSession(data);
         history.push('/chat');
       })
       .catch((error) => {
