@@ -10,10 +10,11 @@ import MessageGroupController from 'app/controllers/MessageGroupController';
 const router = express.Router();
 
 router.post('/auth', AuthController.authenticate);
+router.post('/auth-token',[AuthMiddleware,  AuthController.authenticateToken]);
 
 router.post('/user', UserController.create);
 router.put('/user/:id', [AuthMiddleware, UserController.update]);
-router.get('/user/:id', UserController.find);
+router.get('/user/:id', [AuthMiddleware, UserController.find]);
 router.delete('/user', [AuthMiddleware, UserController.delete]);
 
 router.post('/group', [AuthMiddleware, GroupController.create]);

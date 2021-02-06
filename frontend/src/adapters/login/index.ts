@@ -20,6 +20,10 @@ export class Auth {
       password: this.password
     });
   }
+  
+  static async getAccessWithToken(): Promise<AxiosResponse<IUserResponse>>{
+    return api.post('/auth-token');
+  }
 
   static saveToken(token: string): void {
     sessionStorage.setItem('auth', token);
@@ -28,5 +32,9 @@ export class Auth {
   static getToken(): string {
     const token = sessionStorage.getItem('auth');
     return `Bearer ${token}`;
+  }
+
+  static removeToken(): void {
+    sessionStorage.removeItem('auth');
   }
 };

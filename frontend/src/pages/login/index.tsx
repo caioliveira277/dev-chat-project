@@ -3,7 +3,7 @@ import React, {
   useState, 
   ChangeEventHandler, 
   FormEventHandler,
-  useContext
+  useContext,
 } from 'react';
 import { 
   Containers,
@@ -34,7 +34,17 @@ const Login: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsVisible(true);
+    Auth.getAccessWithToken()
+      .then(({data}) => {
+        Auth.saveToken(data.token);
+        setSession({...data, authenticated: true});
+        history.push('/chat');
+      })
+      .catch((error) => {
+        Auth.removeToken();
+        console.log(error);
+        setIsVisible(true);
+      })
   }, []);
 
   const handlerChange: ChangeEventHandler<HTMLInputElement> = ({target}) => {
