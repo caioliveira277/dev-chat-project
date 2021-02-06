@@ -21,7 +21,7 @@ class AuthController {
   
       return res.json({
         ...userExists,
-        password: null,
+        password: '',
         token
       });
     } catch (error) {
