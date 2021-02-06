@@ -3,7 +3,7 @@ import React, {
   useState, 
   ChangeEventHandler, 
   FormEventHandler,
-  useContext 
+  useContext
 } from 'react';
 import { 
   Containers,
@@ -58,7 +58,6 @@ const Login: React.FC = () => {
         console.log(error);
       })
   }
-
 
   return (
     <Containers.Main backgroundTheme='contrast' centralized={true}>

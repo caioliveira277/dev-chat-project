@@ -6,8 +6,8 @@ export interface IAuthEntries {
   password: string;
 };
 export class Auth {
-  private email: string
-  private password: string;
+  protected email: string;
+  protected password: string;
 
   constructor(entries: IAuthEntries) {
     this.email = entries.email;
