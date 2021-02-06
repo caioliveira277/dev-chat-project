@@ -6,8 +6,8 @@ export interface IAuthEntries {
   password: string;
 };
 export class Auth {
-  protected email: string;
-  protected password: string;
+  protected email: IAuthEntries['email'];
+  protected password: IAuthEntries['password'];
 
   constructor(entries: IAuthEntries) {
     this.email = entries.email;
@@ -22,6 +22,11 @@ export class Auth {
   }
 
   static saveToken(token: string): void {
-    sessionStorage.setItem('auth', `Bearer ${token}`);
+    sessionStorage.setItem('auth', token);
+  }
+
+  static getToken(): string {
+    const token = sessionStorage.getItem('auth');
+    return `Bearer ${token}`;
   }
 };
