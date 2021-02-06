@@ -11,4 +11,14 @@ declare module 'axios' {
     updated_at: string;
     token: string;
   }
+  export interface IGroupResponse {
+    group: {
+      id: number;
+      name: string;
+      description: string;
+      image: string;
+      created_at: string;
+      updated_at: string;
+    }
+  }
 }

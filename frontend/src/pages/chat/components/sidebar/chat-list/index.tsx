@@ -7,17 +7,23 @@ import {
   TextMuted,
   List,
   ContainerTitle,
+  IListData
 } from './styles';
 
-const ChatList: React.FC = () => {
+const ChatList: React.FC<IListData> = ({
+  data
+}) => {
   return (
     <List>
-      {Array(1).fill('teste').map(() => (
-        <Card color='#3075C0' key={1}>
-          <Image src='http://localhost:3000/assets/images/group-profiles/ts.png' alt='teste' />
+      {data.map((chat, index) => (
+        <Card color='#3075C0' key={index}>
+          <Image 
+            src={`${process.env.REACT_APP_API_BASE_URL}/assets/images/group-profiles/${chat.group.image}`} 
+            alt={`Foto do grupo ${chat.group.name}`}
+          />
           <ContainerText>
             <ContainerTitle>
-              <Name>Typescript</Name>
+              <Name>{chat.group.name}</Name>
               <TextMuted>22/12 10:45hrs</TextMuted>
             </ContainerTitle>
             <TextMuted>Sim, são varias vantangens...</TextMuted>

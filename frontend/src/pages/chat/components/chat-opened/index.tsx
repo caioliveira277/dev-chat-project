@@ -16,7 +16,7 @@ const ChatOpened: React.FC = () => {
     <Container>
       <Header color='#3075C0'>
         <ContainerInfo>
-          <Image src='http://localhost:3000/assets/images/group-profiles/ts.png' alt='teste' />
+          <Image src='http://localhost:3000/assets/images/group-profiles/typescript.png' alt='teste' />
           <Name>Typescript</Name>
         </ContainerInfo>
         <LinkInfo href='#'>

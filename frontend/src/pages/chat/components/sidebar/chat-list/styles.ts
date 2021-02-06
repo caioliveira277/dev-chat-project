@@ -1,6 +1,9 @@
+import { IGroupResponse } from 'axios';
 import styled from 'styled-components';
 
-
+export interface IListData {
+  data: IGroupResponse[]
+}
 export const List = styled.ul`
   list-style: none;
   margin: 40px 0 0 0;
