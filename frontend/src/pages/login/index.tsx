@@ -32,7 +32,7 @@ const Login: React.FC = () => {
   const { setSession } = useContext(Session.Context);
   const [userEntries, setUserEntries] = useState<IAuthEntries>({} as IAuthEntries);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-
+  
   useEffect(() => {
     Auth.getAccessWithToken()
       .then(({data}) => {
