@@ -41,7 +41,7 @@ const Signin: React.FC = () => {
     sign.register()
       .then(({data}) => {
         SigninAdapter.saveToken(data.token);
-        setSession(data);
+        setSession({...data, authenticated: true});
         history.push('/chat');
       })
       .catch((error) => {

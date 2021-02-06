@@ -1,24 +1,20 @@
 import React, { createContext, useState } from 'react';
 import { IUserResponse } from 'axios';
 
-type SetSessionFunction<T> = (parms: IUserResponse) => T;
 interface ISessionContext extends IUserResponse {
   authenticated?: boolean;
-  setSession: SetSessionFunction<void>;
+  setSession: (parms: Omit<ISessionContext, 'setSession'>) => void;
 }
 
 const initialState = {} as ISessionContext;
 
-export const Context = createContext(initialState);
+export const Context = createContext<ISessionContext>(initialState);
 
 export const Provider: React.FC = ({children}) => {
-  const [sessionContext, setSessionContext] = useState<ISessionContext>(initialState);
+  const [sessionContext, setSessionContext] = useState<Omit<ISessionContext, 'setSession'>>(initialState);
 
-  const setSession: SetSessionFunction<void> = (parms) => {
-    setSessionContext({
-      ...parms, 
-      setSession: {} as SetSessionFunction<void>
-    });
+  const setSession: ISessionContext['setSession'] = (parms) => {
+    setSessionContext(parms);
   }
 
   return (

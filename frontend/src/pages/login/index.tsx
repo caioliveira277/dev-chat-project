@@ -51,7 +51,7 @@ const Login: React.FC = () => {
     auth.getAccess()
       .then(({data}) => {
         Auth.saveToken(data.token);
-        setSession(data);
+        setSession({...data, authenticated: true});
         history.push('/chat');
       })
       .catch((error) => {
