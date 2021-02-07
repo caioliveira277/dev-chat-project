@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Card,
   ContainerText,
@@ -9,16 +9,28 @@ import {
   ContainerTitle,
   IListData
 } from './styles';
+import { SelectedChat } from 'contexts';
+import { IGroupResponse } from 'axios';
 
-const ChatList: React.FC<IListData> = ({
-  data
-}) => {
+const ChatList: React.FC<IListData> = ({ data }) => {
+  const { setSelectedChat, group } = useContext(SelectedChat.Context); 
+
+  const handlerSelectedChat = (chat: IGroupResponse): void => {
+    if(chat.group.id === group?.id) return;
+    setSelectedChat(chat);
+  }
+
   return (
     <List>
       {data.map((chat, index) => (
-        <Card color='#3075C0' key={index}>
+        <Card 
+          color='#3075C0' 
+          key={index} 
+          active={group?.id === chat.group.id ? true:false}  
+          onClick={() => handlerSelectedChat(chat)}
+        >
           <Image 
-            src={`${process.env.REACT_APP_API_BASE_URL}/assets/images/group-profiles/${chat.group.image}`} 
+            src={`${process.env.REACT_APP_ASSETS_GROUPS_PROFILES}/${chat.group.image}`}
             alt={`Foto do grupo ${chat.group.name}`}
           />
           <ContainerText>

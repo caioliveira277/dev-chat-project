@@ -1,46 +1,47 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import {
-  Container,
   Header,
   ContainerInfo,
   Image,
   Name,
   LinkInfo,
   ContainerEmpty,
-  TextEmtpy
+  TextEmtpy,
+  ContainerChat
 } from './styles';
 import { BsFillInfoCircleFill } from 'react-icons/bs';
 import TextArea from './input-message';
 import MessageList from './message-list';
 import { MdChat } from 'react-icons/md';
+import { SelectedChat } from 'contexts';
 
 const ChatOpened: React.FC = () => {
-  const [ selectedChat, setSelectedChat ] = useState(false);
-  return (
-    <Container>
-      {!selectedChat ? (
-        <ContainerEmpty>
-          <MdChat size='200px' color="#ACE7C9"/>
-          <TextEmtpy>
-            Selecione um grupo para inciar...
-          </TextEmtpy>
-        </ContainerEmpty>
-      ): (
-        <>
-          <Header color='#3075C0'>
-            <ContainerInfo>
-              <Image src='http://localhost:3000/assets/images/group-profiles/typescript.png' alt='teste' />
-              <Name>Typescript</Name>
-            </ContainerInfo>
-            <LinkInfo href='#'>
-              <BsFillInfoCircleFill size='26px' />
-            </LinkInfo>
-          </Header>
-          <MessageList />
-          <TextArea />
-        </>
-      )}
-    </Container>
+  const { group } = useContext(SelectedChat.Context);
+
+  return !group?.id ? (
+    <ContainerEmpty>
+      <MdChat size='200px' color="#ACE7C9"/>
+      <TextEmtpy>
+        Selecione um grupo para inciar...
+      </TextEmtpy>
+    </ContainerEmpty>
+  ): (
+    <ContainerChat animate={group?.id ? 'visible':'hidden'}>
+      <Header color='#3075C0'>
+        <ContainerInfo>
+          <Image
+            src={`${process.env.REACT_APP_ASSETS_GROUPS_PROFILES}/${group?.image}`}
+            alt={`Foto do grupo ${group?.name}`}
+          />
+          <Name>{group.name}</Name>
+        </ContainerInfo>
+        <LinkInfo href='#'>
+          <BsFillInfoCircleFill size='26px' />
+        </LinkInfo>
+      </Header>
+      <MessageList />
+      <TextArea />
+    </ContainerChat>
   );
 };
 

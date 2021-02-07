@@ -1,5 +1,6 @@
 import { IGroupResponse } from 'axios';
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export interface IListData {
   data: IGroupResponse[]
@@ -14,6 +15,7 @@ export const List = styled.ul`
 
 export interface IGroupListInterface {
   color: string;
+  active: boolean;
 };
 export const Card = styled.li<IGroupListInterface>`
   display: flex;
@@ -22,14 +24,16 @@ export const Card = styled.li<IGroupListInterface>`
   background: #444;
   border: 3px solid transparent;
   border-left-color: ${({color}) => color};
+  border-bottom-color: ${({active, color}) => active ? color:'transparent'};
   border-radius: 5px;
   transition: transform 100ms ease-in;
   transform-origin: left bottom;
   cursor: pointer;
   margin: 10px 20px;
+  margin-right: ${({active}) => active ? '0px':'20px'};
   transition: all 150ms ease;
   &:hover {
-    border-color: ${({color}) => color};
+    background: ${darken(0.03, '#444')};
   }
 `;
 

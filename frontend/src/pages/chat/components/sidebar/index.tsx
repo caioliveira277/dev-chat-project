@@ -47,8 +47,8 @@ const Sidebar: React.FC = () => {
     <Aside>
       <ContainerPadding>
         <UserProfile>
-          <RoundedImage 
-            src={`${process.env.REACT_APP_API_BASE_URL}/assets/images/user-profiles/${profile_image || 'profile.png'}`} 
+          <RoundedImage
+            src={`${process.env.REACT_APP_ASSETS_USERS_PROFILES}/${profile_image || 'profile.png'}`} 
             alt={`Foto de perfil de ${name}`} 
           />
           <ContainerNameStatus>

@@ -1,7 +1,24 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { motion } from 'framer-motion';
 
-export const Container = styled.section`
+export const ContainerChat = styled(motion.div).attrs(() => ({
+  initial: 'hidden',
+  variants: {
+    hidden: { 
+      opacity: 0,
+      scale: 0.9,
+    },
+    visible: { 
+      opacity: 1,
+      scale: 1,
+      transition: { 
+        duration: 0.4,
+        ease: ['anticipate']
+      } 
+    },
+  }
+}))`
   background-color: ${({theme}) => theme.colors.secondary};
   flex: 1;
   display: flex;
