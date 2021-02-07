@@ -28,6 +28,10 @@ export class Group extends BaseEntity {
   @Column()
   image: string;
 
+  @Length(5, 10)
+  @Column()
+  color: string;
+
   @CreateDateColumn({ type: 'timestamp with time zone' })
   created_at: Date;
 

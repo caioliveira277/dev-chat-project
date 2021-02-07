@@ -4,7 +4,9 @@
   "description": "Dev Chat",
   "scripts": {
     "server": "nodemon -r tsconfig-paths/register --files src/server/index.ts",
-    "typeorm": "npx ts-node ./node_modules/typeorm/cli.js"
+    "typeorm": "npx ts-node -r tsconfig-paths/register --files ./node_modules/typeorm/cli.js",
+    "migrate:run": "npm run typeorm migration:run",
+    "seed:run": "npx ts-node -r tsconfig-paths/register --files ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "keywords": [],
   "author": "Caio Oliveira",
@@ -19,6 +21,7 @@
     "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.29",
+    "typeorm-seeding": "^1.6.1",
     "tzdata": "^1.0.22"
   },
   "devDependencies": {
