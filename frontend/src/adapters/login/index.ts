@@ -29,9 +29,9 @@ export class Auth {
     sessionStorage.setItem('auth', token);
   }
 
-  static getToken(): string {
+  static getToken(): string|null {
     const token = sessionStorage.getItem('auth');
-    return `Bearer ${token}`;
+    return token;
   }
 
   static removeToken(): void {

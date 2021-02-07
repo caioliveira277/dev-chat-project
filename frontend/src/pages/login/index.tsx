@@ -34,6 +34,8 @@ const Login: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   
   useEffect(() => {
+    if(!Auth.getToken()) return setIsVisible(true);
+
     Auth.getAccessWithToken()
       .then(({data}) => {
         Auth.saveToken(data.token);
