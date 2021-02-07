@@ -1,4 +1,4 @@
 /node_modules
 ormconfig.json
 
-/src/assets/images/*
+./src/assets/images/*
