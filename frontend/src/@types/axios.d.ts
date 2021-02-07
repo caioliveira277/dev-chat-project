@@ -15,6 +15,7 @@ declare module 'axios' {
     group: {
       id: number;
       name: string;
+      color: string;
       description: string;
       image: string;
       created_at: string;
