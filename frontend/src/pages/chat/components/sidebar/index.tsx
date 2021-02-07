@@ -8,7 +8,9 @@ import {
   ProfileStatus,
   Separator,
   ContainerPadding,
-  ContainerTab
+  ContainerTab,
+  ContainerDropdown,
+  ContainerIcon
 } from './styles';
 import { IoIosArrowDown } from 'react-icons/io';
 import { ThemeContext } from 'styled-components';
@@ -20,9 +22,11 @@ import { MdChat, MdStar, MdSettings } from 'react-icons/md';
 import { Session } from 'contexts';
 import { Group } from 'adapters/chat/group';
 import { IGroupResponse } from 'axios';
+import Dropdown from './dropdown';
 
 const Sidebar: React.FC = () => {
   const [ groupList, setGroupList ] = useState<IGroupResponse[]>([]);
+  const [ showDropdown, setShowDropdown ] = useState<boolean>(false);
   const theme = useContext(ThemeContext);
   const { 
     id,
@@ -43,6 +47,10 @@ const Sidebar: React.FC = () => {
       })
   }, [id]);
 
+  const handlerDropdown = (state: boolean): void => {
+    setShowDropdown(state);
+  }
+
   return (
     <Aside>
       <ContainerPadding>
@@ -55,7 +63,12 @@ const Sidebar: React.FC = () => {
             <ProfileName>{name}</ProfileName>
             <ProfileStatus># {profile_status}</ProfileStatus>
           </ContainerNameStatus>
-          <IoIosArrowDown size='30px' color={darken(0.15, theme.colors.primary)} />
+          <ContainerDropdown>
+            <ContainerIcon onClick={() => handlerDropdown((showDropdown ? false:true))} animate={showDropdown ? 'rotateUp':'rotateDown'}>
+              <IoIosArrowDown size='30px' color={darken(0.15, theme.colors.primary)} />
+            </ContainerIcon>
+            <Dropdown show={showDropdown} emitClose={handlerDropdown} />
+          </ContainerDropdown>
         </UserProfile>
         <Separator />
         <SearchInput />

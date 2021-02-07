@@ -76,3 +76,34 @@ export const ContainerTab = styled(motion.nav)`
     }
   }
 `;
+
+export const ContainerDropdown = styled.div`
+  position: relative;
+`;
+
+export const ContainerIcon = styled(motion.div).attrs(() => ({
+  initial: 'rotateDown',
+  variants: {
+    rotateDown: { 
+      rotate: 0,
+      transition: {
+        delay: 0.3,
+        duration: 0.2,
+      },
+    },
+    rotateUp: { 
+      rotate: 180,
+      transition: { 
+        delay: 0.2,
+        duration: 0.2,
+      },
+    },
+  }
+}))`
+  cursor: pointer;
+  z-index: 10;
+  position: inherit;
+  svg {
+    pointer-events: none;
+  }
+`;

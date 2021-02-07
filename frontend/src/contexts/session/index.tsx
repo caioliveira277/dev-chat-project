@@ -6,7 +6,7 @@ interface ISessionContext extends IUserResponse {
   setSession: (parms: Omit<ISessionContext, 'setSession'>) => void;
 }
 
-const initialState = {} as ISessionContext;
+export const initialState = {} as ISessionContext;
 
 export const Context = createContext<ISessionContext>(initialState);
 
