@@ -27,7 +27,7 @@ const ChatOpened: React.FC = () => {
     </ContainerEmpty>
   ): (
     <ContainerChat animate={group?.id ? 'visible':'hidden'}>
-      <Header color='#3075C0'>
+      <Header color={group?.color}>
         <ContainerInfo>
           <Image
             src={`${process.env.REACT_APP_ASSETS_GROUPS_PROFILES}/${group?.image}`}

@@ -24,7 +24,7 @@ const ChatList: React.FC<IListData> = ({ data }) => {
     <List>
       {data.map((chat, index) => (
         <Card 
-          color='#3075C0' 
+          color={chat.group.color} 
           key={index} 
           active={group?.id === chat.group.id ? true:false}  
           onClick={() => handlerSelectedChat(chat)}
