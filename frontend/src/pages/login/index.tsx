@@ -26,6 +26,7 @@ import { IoLogoGoogle } from 'react-icons/io';
 import { AiFillGithub } from 'react-icons/ai';
 import { Auth, IAuthEntries } from 'adapters/login';
 import { Session } from 'contexts';
+import { toast  } from 'react-toastify';
 
 const Login: React.FC = () => {
   const history = useHistory();
@@ -42,10 +43,10 @@ const Login: React.FC = () => {
         setSession({...data, authenticated: true});
         history.push('/chat');
       })
-      .catch((error) => {
+      .catch(({response}) => {
         Auth.removeToken();
-        console.log(error);
         setIsVisible(true);
+        toast.error(`❕ ${response.data.message}`);
       })
   }, []);
 
@@ -66,8 +67,8 @@ const Login: React.FC = () => {
         setSession({...data, authenticated: true});
         history.push('/chat');
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(({response}) => {
+        toast.error(`❕ ${response.data.message}`);
       })
   }
 

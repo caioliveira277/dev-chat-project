@@ -1,5 +1,6 @@
 import { createGlobalStyle, DefaultTheme } from 'styled-components';
 import { darken, lighten } from 'polished';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 export type validColors = 'primary'|'secondary'|'tertiary'|'contrast';
 export const light: DefaultTheme = {

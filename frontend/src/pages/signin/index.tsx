@@ -16,6 +16,7 @@ import {
 import { Link, useHistory } from 'react-router-dom';
 import { SigninAdapter, ISigninEntries } from 'adapters/signin';
 import { Session } from 'contexts';
+import { toast } from 'react-toastify';
 
 const Signin: React.FC = () => {
   const history = useHistory();
@@ -44,8 +45,8 @@ const Signin: React.FC = () => {
         setSession({...data, authenticated: true});
         history.push('/chat');
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(({response}) => {
+        toast.error(`❕ ${response.data.message}`);
       })
   }
 
