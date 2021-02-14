@@ -4,6 +4,7 @@ import { Session } from 'contexts';
 
 const PrivateRoute: React.FC<RouteProps> = ({ children, exact, path }) => {
   const { authenticated } = useContext(Session.Context);
+
   return (
     <Route
       exact={exact}
