@@ -50,7 +50,7 @@ export const ProfileStatus = styled.p`
 `;
 
 export const Separator = styled.div`
-  margin: 40px 0;
+  margin: 30px 0;
   border: 1px solid ${({theme}) => lighten(0.1, theme.colors.tertiary)};
 `;
 

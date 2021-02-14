@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
 `;
 
 export const Title = styled.h2`
@@ -21,7 +21,7 @@ export const Form = styled.form`
   flex-direction: inherit;
   align-items: center;
   & > fieldset {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
   }
   & > button {
     margin-top: 10px;
