@@ -6,12 +6,12 @@ import { Exception } from 'app/utilities';
 class UserController {
   public async create(req: Request, res: Response): Promise<any> {
     try {
-      const { email, password, password_confirmation } = req.body;
+      const { email, password, passwordConfirmation } = req.body;
 
       const userExists = await User.findOne({ where: { email } });
       if (userExists) throw new Exception('Usuário já cadastrado', 400);
 
-      if(password !== password_confirmation) throw new Exception('Falha na confirmação de senha', 400);
+      if(password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
 
       const userToCreate = new User();
       Object.assign(userToCreate, req.body);
@@ -33,12 +33,14 @@ class UserController {
   public async update(req: Request, res: Response): Promise<any> {
     try {
       const { id } = req.params;
-      const { name, email, password, profile_status, profile_image } = req.body;
+      const { name, email, password, profile_status, profile_image, passwordConfirmation } = req.body;
 
       const userToUpdate = await User.findOne({ where: { id } });
       if (!userToUpdate) throw new Exception('Usuário não encontrado', 400);
 
+      
       if (password) {
+        if(password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
         userToUpdate.password = password;
       }
 
