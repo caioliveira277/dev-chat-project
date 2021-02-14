@@ -1,20 +1,29 @@
 import { Request, Response } from 'express';
 import { User } from 'app/models/User';
+import jwt from 'jsonwebtoken';
 import { Exception } from 'app/utilities';
 
 class UserController {
   public async create(req: Request, res: Response): Promise<any> {
     try {
-      const { email } = req.body;
+      const { email, password, passwordConfirmation } = req.body;
 
       const userExists = await User.findOne({ where: { email } });
       if (userExists) throw new Exception('Usuário já cadastrado', 400);
+
+      if(password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
 
       const userToCreate = new User();
       Object.assign(userToCreate, req.body);
       await userToCreate.save();
 
-      return res.json(userToCreate);
+      const token = jwt.sign({ id: userToCreate.id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
+
+      return res.json({
+        ...userToCreate,
+        password: '',
+        token
+      });
     } catch (error) {
       const { code, message } = Exception.interceptErrors(error);
       return res.status(code).json({ message })
@@ -24,12 +33,14 @@ class UserController {
   public async update(req: Request, res: Response): Promise<any> {
     try {
       const { id } = req.params;
-      const { name, email, password, profile_status, profile_image } = req.body;
+      const { name, email, password, profile_status, profile_image, passwordConfirmation } = req.body;
 
       const userToUpdate = await User.findOne({ where: { id } });
       if (!userToUpdate) throw new Exception('Usuário não encontrado', 400);
 
+      
       if (password) {
+        if(password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
         userToUpdate.password = password;
       }
 
