@@ -72,7 +72,7 @@ const Signin: React.FC = () => {
               type='email'
               labelText='Email:'
               placeholder='Informe o seu email'
-              autoCompleted='email'
+              autoComplete='on'
               require={true}
               value={userEntries.email || ''}
               onChange={handlerChange}
@@ -92,9 +92,9 @@ const Signin: React.FC = () => {
               labelText='Confirmar senha:'
               placeholder='Confirme a sua senha'
               require={true}
-              value={userEntries.password_confirmation || ''}
+              value={userEntries.passwordConfirmation || ''}
               onChange={handlerChange}
-              name='password_confirmation'
+              name='passwordConfirmation'
             />
             <Buttons.ButtonTheme
               type='submit'

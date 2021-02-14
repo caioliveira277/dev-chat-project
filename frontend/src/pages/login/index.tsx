@@ -33,7 +33,7 @@ const Login: React.FC = () => {
   const { setSession } = useContext(Session.Context);
   const [userEntries, setUserEntries] = useState<IAuthEntries>({} as IAuthEntries);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  
+
   useEffect(() => {
     if(!Auth.getToken()) return setIsVisible(true);
 
@@ -85,7 +85,7 @@ const Login: React.FC = () => {
               type='email'
               labelText='Email:'
               placeholder='Informe o seu email'
-              autoCompleted='email'
+              autoComplete='on'
               require={true}
               name='email'
               value={userEntries.email || ''}

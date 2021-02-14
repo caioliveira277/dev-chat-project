@@ -67,3 +67,7 @@ export const ContainerTitle = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
+export const ContainerSearch = styled.div`
+  padding: 0 20px;
+`;

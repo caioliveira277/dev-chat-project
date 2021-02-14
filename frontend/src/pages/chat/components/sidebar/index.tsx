@@ -10,23 +10,25 @@ import {
   ContainerPadding,
   ContainerTab,
   ContainerDropdown,
-  ContainerIcon
+  ContainerIcon,
+  CustomLinkTab
 } from './styles';
 import { IoIosArrowDown } from 'react-icons/io';
 import { ThemeContext } from 'styled-components';
 import { darken } from 'polished';
-import { SearchInput } from 'components/inputs';
 import ChatList from './chat-list';
-import { Link } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { MdChat, MdStar, MdSettings } from 'react-icons/md';
 import { Session } from 'contexts';
 import { Group } from 'adapters/chat/group';
 import { IGroupResponse } from 'axios';
 import Dropdown from './dropdown';
+import Settings from './settings';
 
 const Sidebar: React.FC = () => {
   const [ groupList, setGroupList ] = useState<IGroupResponse[]>([]);
   const [ showDropdown, setShowDropdown ] = useState<boolean>(false);
+  const history = useHistory();
   const theme = useContext(ThemeContext);
   const { 
     id,
@@ -34,6 +36,11 @@ const Sidebar: React.FC = () => {
     profile_status,
     profile_image
   } = useContext(Session.Context);
+
+  const useQuery = (): URLSearchParams => {
+    return new URLSearchParams(useLocation().search);
+  }
+  const tabQuery = useQuery().get('tab') || 'chats';
 
   useEffect(() => {
     const group = new Group({userId: id});
@@ -71,13 +78,38 @@ const Sidebar: React.FC = () => {
           </ContainerDropdown>
         </UserProfile>
         <Separator />
-        <SearchInput />
       </ContainerPadding>
-      <ChatList data={groupList} />
+      {
+        tabQuery === 'chats' ? (
+          <ChatList data={groupList} />
+        ) : tabQuery === 'favoritos' ? (
+            <></>
+        ) : tabQuery === 'ajustes' ? (
+          <Settings />
+        ) : null
+      }
       <ContainerTab>
-        <Link to='/'><MdChat size='26px' /></Link>
-        <Link to='/'><MdStar size='26px' /></Link>
-        <Link to='/'><MdSettings size='26px' /></Link>
+        <CustomLinkTab 
+          onClick={() => history.push('/chat?tab=chats')}
+          name='chats'
+          activeTab={tabQuery}
+        >
+          <MdChat size='26px' />
+        </CustomLinkTab>
+        <CustomLinkTab 
+          onClick={() => history.push('/chat?tab=favoritos')}
+          name='favoritos'
+          activeTab={tabQuery}
+        >
+          <MdStar size='26px' />
+        </CustomLinkTab>
+        <CustomLinkTab 
+          onClick={() => history.push('/chat?tab=ajustes')}
+          name='ajustes'
+          activeTab={tabQuery}
+        >
+          <MdSettings size='26px' />
+        </CustomLinkTab>
       </ContainerTab>
     </Aside>
   );

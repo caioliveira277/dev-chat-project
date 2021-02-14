@@ -5,18 +5,18 @@ import api from 'adapters/xhr';
 export interface ISigninEntries extends IAuthEntries {
   name: string;
   password: string;
-  password_confirmation: string;
+  passwordConfirmation: string;
 };
 export class SigninAdapter extends Auth {
   protected name: string;
   protected password: string;
-  protected password_confirmation: string;
+  protected passwordConfirmation: string;
 
   constructor(entries: ISigninEntries) {
     super(entries);
     this.name = entries.name;
     this.password = entries.password;
-    this.password_confirmation = entries.password_confirmation;
+    this.passwordConfirmation = entries.passwordConfirmation;
   }
 
   async register(): Promise<AxiosResponse<IUserResponse>>{
@@ -24,7 +24,7 @@ export class SigninAdapter extends Auth {
       name: this.name,
       email: this.email,
       password: this.password,
-      password_confirmation: this.password_confirmation
+      passwordConfirmation: this.passwordConfirmation
     });
   }
 };

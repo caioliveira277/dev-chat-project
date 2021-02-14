@@ -65,15 +65,24 @@ export const ContainerTab = styled(motion.nav)`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   overflow: hidden;
-  & > a {
-    flex: 1;
-    text-align: center;
-    padding: 10px 0px;
-    color: ${({theme}) => theme.colors.primary};
-    &:hover {
-      color: ${({theme}) => theme.colors.tertiary};
-      background-color: ${({theme}) => theme.colors.primary};
-    }
+`;
+
+export interface ICustomLinkTab {
+  name: string;
+  activeTab: string|null;
+}
+export const CustomLinkTab = styled.a<ICustomLinkTab>`
+  flex: 1;
+  text-align: center;
+  padding: 10px 0px;
+  color: ${({theme}) => theme.colors.primary};
+  border-bottom: 3px solid transparent;
+  border-color: ${({activeTab, name, theme}) => name === activeTab ? theme.colors.primary:'transparent'};
+  transition: border-color 200ms 100ms ease;
+  &:hover {
+    border-color: ${({activeTab, name, theme}) => name === activeTab ? theme.colors.tertiary:'transparent'};
+    color: ${({theme}) => theme.colors.tertiary};
+    background-color: ${({theme}) => theme.colors.primary};
   }
 `;
 

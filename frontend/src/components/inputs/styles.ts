@@ -1,33 +1,37 @@
 import { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import { lighten } from 'polished';
 
-export interface ILabelInputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface IDark {
+  dark?: boolean;
+}
+export interface ILabelInputProps extends InputHTMLAttributes<HTMLInputElement>, IDark {
   labelText: string;
   type: string;
-  autoCompleted?: string;
   require: boolean;
 };
 export const Fieldset = styled.fieldset`
   border: none;
 `;
 
-export const Label = styled.label`
+export const Label = styled.label<IDark>`
   font-size: 18px;
   margin-bottom: 15px;
   display: block;
+  color: ${({theme, dark}) => dark ? theme.colors.secondary : theme.colors.tertiary};
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<IDark>`
   width: 100%;
   font-size: 14px;
   padding: 10px 0px 10px 10px;
   box-shadow: 0px 1px 4px 2px rgba(41,44,43,0.1);
   border-radius: 5px;
-  border: none;
-  background-color: #fff;
-  &:focus {
-    box-shadow: 0px 1px 4px 2px ${({theme}) => lighten(0.25, theme.colors.primary)};
+  border: 1px solid;
+  border-color: ${({dark}) => dark ? '#7b7b7b' : 'transparent'};
+  background-color: ${({dark}) => dark ? '#444' : '#fff'};
+  color: ${({dark, theme}) => dark ? theme.colors.secondary : theme.colors.tertiary};
+  &::placeholder {
+    color: ${({dark}) => dark ? '#d4d4d4' : '#A8A8A8'};
   }
 `;
 

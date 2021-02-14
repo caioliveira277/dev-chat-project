@@ -13,23 +13,25 @@ export const LabelInput: React.FC<ILabelInputProps> = ({
   labelText,
   placeholder,
   type,
-  autoCompleted = '',
+  autoComplete = 'off',
   require = false,
   value,
   onChange,
-  name
+  name,
+  dark = false
 }) => {
   return (
     <Fieldset>
-      <Label>{labelText}</Label>
+      <Label dark={dark}>{labelText}</Label>
       <Input
         type={type}
         placeholder={placeholder}
-        autoComplete={autoCompleted}
+        autoComplete={autoComplete}
         required={require}
         value={value}
         onChange={onChange}
         name={name}
+        dark={dark}
       />
     </Fieldset>
   );
