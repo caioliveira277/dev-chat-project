@@ -55,9 +55,11 @@ export class User extends BaseEntity {
   @BeforeInsert()
   @BeforeUpdate()
   validate() {
-    this.password = bcrypt.hashSync(this.password, 8);
-    if(!(new RegExp(/^[a-z]{2,}\ [a-z]{2,}/gi).test(this.name))) {
-      throw new Exception("Informe o seu nome e sobrenome", 400);
+    if(this.password) {
+      this.password = bcrypt.hashSync(this.password, 8);
+      if(!(new RegExp(/^[a-z]{2,}\ [a-z]{2,}/gi).test(this.name))) {
+        throw new Exception("Informe o seu nome e sobrenome", 400);
+      }
     }
   }
 }

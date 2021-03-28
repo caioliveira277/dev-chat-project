@@ -38,7 +38,6 @@ class UserController {
       const userToUpdate = await User.findOne({ where: { id } });
       if (!userToUpdate) throw new Exception('Usuário não encontrado', 400);
 
-      
       if (password) {
         if(password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
         userToUpdate.password = password;
