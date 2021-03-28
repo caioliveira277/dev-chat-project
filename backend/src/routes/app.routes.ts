@@ -9,25 +9,30 @@ import MessageGroupController from 'app/controllers/MessageGroupController';
 
 const router = express.Router();
 
+/* rotas de autenticação */
 router.post('/auth', AuthController.authenticate);
-router.post('/auth-token',[AuthMiddleware.route,  AuthController.authenticateToken]);
+router.post('/auth-token',[AuthMiddleware.authRoute,  AuthController.authenticateToken]);
 
+/* rotas dos usuários */
 router.post('/user', UserController.create);
-router.put('/user/:id', [AuthMiddleware.route, UserController.update]);
-router.get('/user/:id', [AuthMiddleware.route, UserController.find]);
-router.delete('/user', [AuthMiddleware.route, UserController.delete]);
+router.put('/user/:id', [AuthMiddleware.authRoute, UserController.update]);
+router.get('/user/:id', [AuthMiddleware.authRoute, UserController.find]);
+router.delete('/user', [AuthMiddleware.authRoute, UserController.delete]);
 
-router.post('/group', [AuthMiddleware.route, GroupController.create]);
-router.put('/group/:id', [AuthMiddleware.route, GroupController.update]);
-router.get('/group/:id', [AuthMiddleware.route, GroupController.find]);
-router.delete('/group/:id', [AuthMiddleware.route, GroupController.delete]);
+/* rotas dos grupos */
+router.post('/group', [AuthMiddleware.authRoute, GroupController.create]);
+router.put('/group/:id', [AuthMiddleware.authRoute, GroupController.update]);
+router.get('/group/:id', [AuthMiddleware.authRoute, GroupController.find]);
+router.delete('/group/:id', [AuthMiddleware.authRoute, GroupController.delete]);
 
-router.post('/user-group', [AuthMiddleware.route, UserGroupController.create]);
-router.get('/find-user-groups/:id', [AuthMiddleware.route, UserGroupController.findUserGroups]);
-router.get('/find-group-users/:id', [AuthMiddleware.route, UserGroupController.findGroupUsers]);
-router.delete('/user-group', [AuthMiddleware.route, UserGroupController.delete]);
+/* rotas de relacinamento usuário e grupo */
+router.post('/user-group', [AuthMiddleware.authRoute, UserGroupController.create]);
+router.get('/find-user-groups/:id', [AuthMiddleware.authRoute, UserGroupController.findUserGroups]);
+router.get('/find-group-users/:id', [AuthMiddleware.authRoute, UserGroupController.findGroupUsers]);
+router.delete('/user-group', [AuthMiddleware.authRoute, UserGroupController.delete]);
 
-router.post('/message', [AuthMiddleware.route, MessageGroupController.create]);
-router.get('/group-messages/:id', [AuthMiddleware.route, MessageGroupController.findGroupMessages]);
+/* rotas de relacinamento grupo e mensagem */
+router.post('/message', [AuthMiddleware.authRoute, MessageGroupController.create]);
+router.get('/group-messages/:id', [AuthMiddleware.authRoute, MessageGroupController.findGroupMessages]);
 
 export default router;

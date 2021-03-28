@@ -40,7 +40,7 @@ class ServerApplication {
 
   private initSocketIo(): void {
     this.io = require('socket.io')(this.server, this.ioConnectionParms);
-    this.io.use((socket, next) => AuthMiddleware.socketIo(socket, next));
+    this.io.use(AuthMiddleware.authSocket);
     this.io.on('connection', events);
   }
 
