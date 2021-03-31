@@ -20,10 +20,10 @@ import ChatList from './chat-list';
 import { useHistory, useLocation } from 'react-router-dom';
 import { MdChat, MdStar, MdSettings } from 'react-icons/md';
 import { Session } from 'contexts';
-import { Group } from 'adapters/chat/group';
 import { IGroupResponse } from 'axios';
 import Dropdown from './dropdown';
 import Settings from './settings';
+import socket from 'adapters/ws';
 
 const Sidebar: React.FC = () => {
   const [ groupList, setGroupList ] = useState<IGroupResponse[]>([]);
@@ -43,15 +43,10 @@ const Sidebar: React.FC = () => {
   const tabQuery = useQuery().get('tab') || 'chats';
 
   useEffect(() => {
-    const group = new Group({userId: id});
-    
-    group.getUserGroups()
-      .then(({data}) => {
-        setGroupList(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    socket.emit('request-groups', id);
+    socket.on('receive-groups', (data: IGroupResponse[]) => {
+      setGroupList(data);
+    })
   }, [id]);
 
   const handlerDropdown = (state: boolean): void => {

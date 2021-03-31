@@ -33,22 +33,20 @@ class GroupController {
     }
   }
 
-  public async findUserGroups(req: Request, res: Response): Promise<any> {
+  public async findUserGroups(userId: number): Promise<any> {
     try {
-      const { id } = req.params; 
-
       const userGroups = await UserGroup.find({
         select: ['group_id'],
         where: {
-          user_id: id
+          user_id: userId
         },
         relations: ['group'],
       });
-
-      return res.json(userGroups);
+      
+      return userGroups;
     } catch (error) {
       const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      console.log(code, message);
     }
   }
 

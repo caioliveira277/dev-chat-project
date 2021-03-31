@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, FormEventHandler, useState } from 'react';
 import {
   Container,
   TextArea
@@ -6,15 +6,23 @@ import {
 import { ThemeContext } from 'styled-components';
 import { Buttons } from 'components';
 import { FiPaperclip } from 'react-icons/fi';
-import { IoPaperPlane } from 'react-icons/io5'; 
+import { IoPaperPlane } from 'react-icons/io5';
 
 const InputMessage: React.FC = () => {
   const theme = useContext(ThemeContext);
+  const [ valueInputMessage, setValueInputMessage ] = useState('');
+
+  const handlerSubmit: FormEventHandler = (event): void => {
+    event.preventDefault();
+    console.log(valueInputMessage);
+  }
   return (
-    <Container>
+    <Container onSubmit={handlerSubmit}>
       <TextArea
         placeholder='Escreva uma mensagem...'
         required={true}
+        value={valueInputMessage}
+        onChange={({target: {value}}) => setValueInputMessage(value)}
       />
       <Buttons.ButtonThemeRounded
         type='button'

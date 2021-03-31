@@ -27,8 +27,6 @@ router.delete('/group/:id', [AuthMiddleware.authRoute, GroupController.delete]);
 
 /* rotas de relacinamento usuário e grupo */
 router.post('/user-group', [AuthMiddleware.authRoute, UserGroupController.create]);
-router.get('/find-user-groups/:id', [AuthMiddleware.authRoute, UserGroupController.findUserGroups]);
-router.get('/find-group-users/:id', [AuthMiddleware.authRoute, UserGroupController.findGroupUsers]);
 router.delete('/user-group', [AuthMiddleware.authRoute, UserGroupController.delete]);
 
 /* rotas de relacinamento grupo e mensagem */

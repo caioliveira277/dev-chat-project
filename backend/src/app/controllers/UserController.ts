@@ -30,11 +30,16 @@ class UserController {
     }
   }
 
-  public async update(req: Request, res: Response): Promise<any> {
+  public async update({
+    id,
+    name,
+    email,
+    password,
+    profile_status,
+    profile_image,
+    passwordConfirmation
+  }: User & {passwordConfirmation: String}): Promise<any> {
     try {
-      const { id } = req.params;
-      const { name, email, password, profile_status, profile_image, passwordConfirmation } = req.body;
-
       const userToUpdate = await User.findOne({ where: { id } });
       if (!userToUpdate) throw new Exception('Usuário não encontrado', 400);
 
@@ -50,10 +55,10 @@ class UserController {
       await userToUpdate.save();
 
       userToUpdate.password = '';
-      return res.json(userToUpdate);
+      return userToUpdate;
     } catch (error) {
       const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      console.log(code, message);
     }
   }
 
