@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { User } from 'app/models/User';
 import jwt from 'jsonwebtoken';
 import { Exception } from 'app/utilities';
+import bcrypt from "bcryptjs";
 
 class UserController {
   public async create(req: Request, res: Response): Promise<any> {
@@ -43,9 +44,13 @@ class UserController {
       const userToUpdate = await User.findOne({ where: { id } });
       if (!userToUpdate) throw new Exception('Usuário não encontrado', 400);
 
+      if(!(new RegExp(/^[a-z]{2,}\ [a-z]{2,}/gi).test(name))) {
+        throw new Exception('Informe o seu nome e sobrenome', 400);
+      }
+
       if (password) {
         if(password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
-        userToUpdate.password = password;
+        userToUpdate.password = bcrypt.hashSync(password, 8);
       }
 
       userToUpdate.name = name;
