@@ -15,7 +15,6 @@ router.post('/auth-token',[AuthMiddleware.authRoute,  AuthController.authenticat
 
 /* rotas dos usuários */
 router.post('/user', UserController.create);
-router.put('/user/:id', [AuthMiddleware.authRoute, UserController.update]);
 router.get('/user/:id', [AuthMiddleware.authRoute, UserController.find]);
 router.delete('/user', [AuthMiddleware.authRoute, UserController.delete]);
 

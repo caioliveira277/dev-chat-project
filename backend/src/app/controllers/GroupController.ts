@@ -55,6 +55,17 @@ class GroupController {
     }
   }
 
+  public async getAll(): Promise<any> {
+    try {
+      const groups = await Group.find();
+
+      return groups;
+    } catch (error) {
+      const { code, message } = Exception.interceptErrors(error);
+      console.log(code, message);
+    }
+  }
+
   public async delete(req: Request, res: Response): Promise<any> {
     try {
       const { id } = req.params;
