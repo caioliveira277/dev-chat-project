@@ -12,7 +12,7 @@ class UserController {
       const userExists = await User.findOne({ where: { email } });
       if (userExists) throw new Exception('Usuário já cadastrado', 400);
 
-      if(password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
+      if (password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
 
       const userToCreate = new User();
       Object.assign(userToCreate, req.body);
@@ -26,8 +26,7 @@ class UserController {
         token
       });
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 
@@ -39,17 +38,13 @@ class UserController {
     profile_status,
     profile_image,
     passwordConfirmation
-  }: User & {passwordConfirmation: String}): Promise<any> {
+  }: User & { passwordConfirmation: String }): Promise<any> {
     try {
       const userToUpdate = await User.findOne({ where: { id } });
       if (!userToUpdate) throw new Exception('Usuário não encontrado', 400);
 
-      if(!(new RegExp(/^[a-z]{2,}\ [a-z]{2,}/gi).test(name))) {
-        throw new Exception('Informe o seu nome e sobrenome', 400);
-      }
-
       if (password) {
-        if(password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
+        if (password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
         userToUpdate.password = bcrypt.hashSync(password, 8);
       }
 
@@ -62,8 +57,7 @@ class UserController {
       userToUpdate.password = '';
       return userToUpdate;
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      console.log(code, message);
+      Exception.interceptErrors(error);
     }
   }
 
@@ -77,8 +71,7 @@ class UserController {
       userToFind.password = '';
       return res.json(userToFind);
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 
@@ -94,8 +87,7 @@ class UserController {
 
       return res.json({ message: 'Usuário deletado com sucesso' })
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 }

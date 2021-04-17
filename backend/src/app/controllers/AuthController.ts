@@ -24,8 +24,7 @@ class AuthController {
         token
       });
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message });
     }
   }
 
@@ -44,8 +43,7 @@ class AuthController {
         token
       });
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 }

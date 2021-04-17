@@ -35,8 +35,7 @@ export default class AuthMiddleware {
 
       next();
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 

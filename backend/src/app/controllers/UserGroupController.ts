@@ -28,8 +28,7 @@ class GroupController {
 
       return res.json(userGroupAssociation.id);
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 
@@ -45,8 +44,7 @@ class GroupController {
       
       return userGroups;
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      console.log(code, message);
+      Exception.interceptErrors(error);
     }
   }
 
@@ -64,8 +62,7 @@ class GroupController {
 
       return res.json(groupUsers);
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 
@@ -81,8 +78,7 @@ class GroupController {
 
       return res.json({ message: 'Usuário removido do grupo com sucesso!' })
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 }

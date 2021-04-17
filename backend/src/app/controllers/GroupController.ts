@@ -16,8 +16,7 @@ class GroupController {
 
       return res.json(groupToCreate);
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 
@@ -36,8 +35,7 @@ class GroupController {
 
       return res.json(groupToUpdate);
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 
@@ -50,8 +48,7 @@ class GroupController {
 
       return res.json(groupToFind);
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 
@@ -61,8 +58,7 @@ class GroupController {
 
       return groups;
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      console.log(code, message);
+      Exception.interceptErrors(error);
     }
   }
 
@@ -78,8 +74,7 @@ class GroupController {
 
       return res.json({ message: 'Grupo deletado com sucesso' })
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 }

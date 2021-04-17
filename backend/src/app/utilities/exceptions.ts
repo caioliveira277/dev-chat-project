@@ -1,7 +1,5 @@
-interface IParamsResponse {
-  message: string;
-  code: number;
-};
+import { EventEmitter } from 'events';
+const eventEmitter = new EventEmitter();
 
 export class Exception {
   protected message: string;
@@ -12,13 +10,22 @@ export class Exception {
     this.code = code;
   }
 
-  public static interceptErrors(params: any): IParamsResponse {
+  public static errorEmitter(): EventEmitter {
+    return eventEmitter;
+  }
+
+  public static interceptErrors(params: any): Error {
     const { code, message } = params;
+    let objReturn;
+
     if(code){
-      return { code, message };
+      objReturn = { code, message };
     }else {
       console.log('❌  ', params);
-      return { code: 500, message: 'Erro ao processar chamada' };
+      objReturn = { code: 500, message: 'Erro ao processar chamada' };
     }
+
+    eventEmitter.emit('requestError', objReturn);
+    throw new Error;
   }
 }

@@ -29,8 +29,7 @@ class GroupController {
 
       return res.json(messageGroupAssociation.id);
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 
@@ -48,8 +47,7 @@ class GroupController {
 
       return res.json(groupMessages);
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 }
