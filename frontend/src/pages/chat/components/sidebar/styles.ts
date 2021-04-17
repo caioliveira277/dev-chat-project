@@ -99,14 +99,14 @@ export const ContainerIcon = styled(motion.div).attrs(() => ({
     rotateDown: { 
       rotate: 0,
       transition: {
-        delay: 0.3,
+        delay: 0.1,
         duration: 0.2,
       },
     },
     rotateUp: { 
       rotate: 180,
       transition: { 
-        delay: 0.2,
+        delay: 0.1,
         duration: 0.2,
       },
     },
