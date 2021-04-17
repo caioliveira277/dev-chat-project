@@ -12,14 +12,12 @@ declare module 'axios' {
     token: string;
   }
   export interface IGroupResponse {
-    group: {
-      id: number;
-      name: string;
-      color: string;
-      description: string;
-      image: string;
-      created_at: string;
-      updated_at: string;
-    }
+    id: number;
+    name: string;
+    color: string;
+    description: string;
+    image: string;
+    created_at: string;
+    updated_at: string;
   }
 }

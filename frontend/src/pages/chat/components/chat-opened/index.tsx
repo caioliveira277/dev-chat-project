@@ -16,7 +16,7 @@ import { MdChat } from 'react-icons/md';
 import { SelectedChat } from 'contexts';
 
 const ChatOpened: React.FC = () => {
-  const { group } = useContext(SelectedChat.Context);
+  const group = useContext(SelectedChat.Context);
 
   return !group?.id ? (
     <ContainerEmpty>

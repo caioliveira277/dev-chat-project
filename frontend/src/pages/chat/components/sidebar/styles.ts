@@ -73,6 +73,9 @@ export interface ICustomLinkTab {
 }
 export const CustomLinkTab = styled.a<ICustomLinkTab>`
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 10px 0px;
   color: ${({theme}) => theme.colors.primary};

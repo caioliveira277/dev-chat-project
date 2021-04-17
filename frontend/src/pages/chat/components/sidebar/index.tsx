@@ -16,17 +16,23 @@ import {
 import { IoIosArrowDown } from 'react-icons/io';
 import { ThemeContext } from 'styled-components';
 import { darken } from 'polished';
-import ChatList from './chat-list';
+import { ChatList } from './chat-list';
 import { useHistory, useLocation } from 'react-router-dom';
-import { MdChat, MdStar, MdSettings } from 'react-icons/md';
+import { MdChat, MdSettings } from 'react-icons/md';
+import { FaLayerGroup } from 'react-icons/fa';
 import { Session } from 'contexts';
 import { IGroupResponse } from 'axios';
 import Dropdown from './dropdown';
 import Settings from './settings';
+import Groups from './groups';
 import socket from 'adapters/ws';
 
+interface IGroupList {
+  group: IGroupResponse
+}
 const Sidebar: React.FC = () => {
-  const [ groupList, setGroupList ] = useState<IGroupResponse[]>([]);
+  const [ groupList, setGroupList ] = useState<IGroupList[]>({} as IGroupList[]);
+  const [ availableGroupList, setAvailableGroupList ] = useState<IGroupResponse[]>([]);
   const [ showDropdown, setShowDropdown ] = useState<boolean>(false);
   const history = useHistory();
   const theme = useContext(ThemeContext);
@@ -43,10 +49,17 @@ const Sidebar: React.FC = () => {
   const tabQuery = useQuery().get('tab') || 'chats';
 
   useEffect(() => {
+    /* user groups */
     socket.emit('request-groups', id);
-    socket.on('receive-groups', (data: IGroupResponse[]) => {
+    socket.on('receive-groups', (data: IGroupList[]) => {
       setGroupList(data);
-    })
+    });
+    
+    /* available groups */
+    socket.emit('request-availableGroups');
+    socket.on('receive-availableGroups', (data: IGroupResponse[]) => {
+      setAvailableGroupList(data);
+    });
   }, [id]);
 
   const handlerDropdown = (state: boolean): void => {
@@ -77,8 +90,8 @@ const Sidebar: React.FC = () => {
       {
         tabQuery === 'chats' ? (
           <ChatList data={groupList} />
-        ) : tabQuery === 'favoritos' ? (
-            <></>
+        ) : tabQuery === 'grupos' ? (
+          <Groups data={availableGroupList} />
         ) : tabQuery === 'ajustes' ? (
           <Settings />
         ) : null
@@ -92,11 +105,11 @@ const Sidebar: React.FC = () => {
           <MdChat size='26px' />
         </CustomLinkTab>
         <CustomLinkTab 
-          onClick={() => history.push('/chat?tab=favoritos')}
-          name='favoritos'
+          onClick={() => history.push('/chat?tab=grupos')}
+          name='grupos'
           activeTab={tabQuery}
         >
-          <MdStar size='26px' />
+          <FaLayerGroup size='20px' />
         </CustomLinkTab>
         <CustomLinkTab 
           onClick={() => history.push('/chat?tab=ajustes')}
