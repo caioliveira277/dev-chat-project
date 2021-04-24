@@ -5,19 +5,19 @@ import GroupController from 'app/controllers/GroupController';
 import { User } from 'app/models/User';
 import { Exception } from 'app/utilities';
 
-function events (this: SocketIO.Server, socket: SocketIO.Socket) {
+function events (server: SocketIO.Server, socket: SocketIO.Socket) {
   console.log(`[${socket.id}] 🚀 Client is connected`);
-
+  
   /* return error to client side */
   Exception.errorEmitter().on('requestError', (objReturn) => {
-    this.to(socket.id).emit('requestError', objReturn);
+    server.to(socket.id).emit('requestError', objReturn);
   });
 
   /* get groups */
   socket.on('request-groups', async (userId: number) => {
     try {
       const groups = await UserGroupController.findUserGroups(userId);
-      this.to(socket.id).emit('receive-groups', groups);
+      server.to(socket.id).emit('receive-groups', groups);
     } catch(_error){}
   });
 
@@ -25,7 +25,7 @@ function events (this: SocketIO.Server, socket: SocketIO.Socket) {
   socket.on('request-availableGroups', async () => {
     try {
       const groups = await GroupController.getAll();
-      this.to(socket.id).emit('receive-availableGroups', groups);
+      server.to(socket.id).emit('receive-availableGroups', groups);
     } catch(_error){}
   });
 
@@ -33,7 +33,7 @@ function events (this: SocketIO.Server, socket: SocketIO.Socket) {
   socket.on('request-updateUser', async (data: User & {passwordConfirmation: String}) => {
     try {
       const user = await UserController.update(data);
-      this.to(socket.id).emit('receive-updateUser', user);
+      server.to(socket.id).emit('receive-updateUser', user);
     } catch(_error){}
   });
 }

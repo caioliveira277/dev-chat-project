@@ -7,12 +7,12 @@ import AuthMiddleware from 'app/middlewares/authMiddleware';
 import events from '~/events/app.events';
 import cors from 'cors';
 import path from 'path';
-import SocketIO from 'socket.io';
+import * as socketIO from 'socket.io';
 
 class ServerApplication {
   private app: express.Express;
-  private server: http.Server;
-  private io: SocketIO.Server;
+  private httpServer: http.Server;
+  private ioServer: socketIO.Server;
   private PORT = process.env.API_PORT;
   private ioConnectionParms = {
     cors: {
@@ -40,17 +40,15 @@ class ServerApplication {
   }
 
   private initSocketIo(): void {
-    this.io = require('socket.io')(this.server, this.ioConnectionParms);
-    this.io.use(AuthMiddleware.authSocket);
-
-    events.bind(this.io as SocketIO.Server);
-    this.io.on('connection', events);
+    this.ioServer = new socketIO.Server(this.httpServer, this.ioConnectionParms);
+    this.ioServer.use(AuthMiddleware.authSocket);
+    this.ioServer.on('connection', (socket) => events(this.ioServer, socket));
   }
 
   private initServer(): void {
-    this.server = http.createServer(this.app);
+    this.httpServer = http.createServer(this.app);
 
-    this.server.listen(this.PORT, async () => {
+    this.httpServer.listen(this.PORT, async () => {
       Connection.init()
         .then(() => console.log(`🤘  Database is connected`))
         .catch(error => console.log(`❌  Database connection error`, error));
