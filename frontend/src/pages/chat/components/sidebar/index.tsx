@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Aside,
   UserProfile,
@@ -25,19 +25,16 @@ import { IGroupResponse } from 'axios';
 import Dropdown from './dropdown';
 import Settings from './settings';
 import Groups from './groups';
-import socket from 'adapters/ws';
 
-interface IGroupList {
-  group: IGroupResponse
+export interface ISidebar {
+  groupList: {group: IGroupResponse}[];
+  availableGroupList: IGroupResponse[];
 }
-const Sidebar: React.FC = () => {
-  const [ groupList, setGroupList ] = useState<IGroupList[]>({} as IGroupList[]);
-  const [ availableGroupList, setAvailableGroupList ] = useState<IGroupResponse[]>([]);
+export const Sidebar: React.FC<ISidebar> = ({groupList, availableGroupList}) => {
   const [ showDropdown, setShowDropdown ] = useState<boolean>(false);
   const history = useHistory();
   const theme = useContext(ThemeContext);
   const { 
-    id,
     name, 
     profile_status,
     profile_image
@@ -47,20 +44,6 @@ const Sidebar: React.FC = () => {
     return new URLSearchParams(useLocation().search);
   }
   const tabQuery = useQuery().get('tab') || 'chats';
-
-  useEffect(() => {
-    /* user groups */
-    socket.emit('request-groups', id);
-    socket.on('receive-groups', (data: IGroupList[]) => {
-      setGroupList(data);
-    });
-    
-    /* available groups */
-    socket.emit('request-availableGroups');
-    socket.on('receive-availableGroups', (data: IGroupResponse[]) => {
-      setAvailableGroupList(data);
-    });
-  }, [id]);
 
   const handlerDropdown = (state: boolean): void => {
     setShowDropdown(state);
@@ -122,5 +105,3 @@ const Sidebar: React.FC = () => {
     </Aside>
   );
 }
-
-export default Sidebar;
