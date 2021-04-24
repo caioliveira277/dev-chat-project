@@ -15,7 +15,7 @@ export default class AuthMiddleware {
     let dataJwt;
     try {
       dataJwt = jwt.verify(tokenFormated, process.env.JWT_SECRET!, {
-        ignoreExpiration: process.env.NODE_ENV !== 'development' ? false : true
+        ignoreExpiration: process.env.NODE_ENV === 'development' ? true : false
       });
       return dataJwt as ITokenPayload;
     } catch (_error) {
@@ -40,6 +40,15 @@ export default class AuthMiddleware {
   }
 
   public static authSocket(socket: any, next: (err?: any) => void): void {
-    return next();
+    try {
+      const { authorization } = socket.handshake.auth;
+      if (!authorization) throw new Exception('Falha de autenticação', 401);
+      
+      AuthMiddleware.tokenValidation(authorization);
+
+      return next();
+    } catch (error) {
+      return next(new Error(error));
+    }
   }
 }
