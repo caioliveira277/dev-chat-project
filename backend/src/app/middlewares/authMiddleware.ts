@@ -44,8 +44,13 @@ export default class AuthMiddleware {
       const { authorization } = socket.handshake.auth;
       if (!authorization) throw new Exception('Falha de autenticação', 401);
       
-      AuthMiddleware.tokenValidation(authorization);
+      const {id: userId} = AuthMiddleware.tokenValidation(authorization);
 
+      global.connectedClients = {
+        ...global.connectedClients,
+        [userId]: socket.id
+      };
+      
       return next();
     } catch (error) {
       return next(new Error(error));
