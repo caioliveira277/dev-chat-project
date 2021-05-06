@@ -33,7 +33,7 @@ export interface IContentProps {
 }
 export const Content = styled.div<IContentProps>`
   background-color: ${({theme, currentUser}) => currentUser ? '#79807D':theme.colors.tertiary};
-  max-width: 400px;
+  width: 400px;
   border-radius: 8px;
   padding: 20px 15px;
 
