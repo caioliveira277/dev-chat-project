@@ -81,6 +81,22 @@ class GroupController {
       return res.status(error.code).json({ message: error.message })
     }
   }
+
+  public async getGroupUsers(groupId: number): Promise<UserGroup[]> {
+    try {
+      const groupUsers = await UserGroup.find({
+        select: ['user_id'],
+        where: {
+          group_id: groupId
+        },
+      });
+      
+      return groupUsers;
+    } catch (error) {
+      Exception.interceptErrors(error);
+      return []
+    }
+  }
 }
 
 export default new GroupController();
