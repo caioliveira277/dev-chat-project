@@ -6,10 +6,13 @@ import { MessageGroup } from 'app/models/MessageGroup';
 import { Exception } from 'app/utilities';
 
 class GroupController {
-  public async create(req: Request, res: Response): Promise<any> {
+  public async create({
+    body,
+    user_sender_id,
+    group_id,
+    type
+  }: Message & MessageGroup): Promise<any> {
     try {
-      const { group_id, user_sender_id, body } = req.body;
-
       const group = await Group.findOne(group_id);
       const user = await User.findOne(user_sender_id);
 
@@ -18,7 +21,7 @@ class GroupController {
 
       const messageToCreate = new Message();
       messageToCreate.body = body;
-      messageToCreate.type = 'text';
+      messageToCreate.type = type;
       await messageToCreate.save();
 
       const messageGroupAssociation = new MessageGroup();
@@ -27,9 +30,10 @@ class GroupController {
       messageGroupAssociation.message = messageToCreate;
       await messageGroupAssociation.save();
 
-      return res.json(messageGroupAssociation.id);
+      messageGroupAssociation.user.password = '';
+      return messageGroupAssociation;
     } catch (error) {
-      return res.status(error.code).json({ message: error.message })
+      Exception.interceptErrors(error);
     }
   }
 
