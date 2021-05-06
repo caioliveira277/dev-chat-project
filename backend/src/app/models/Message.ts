@@ -7,7 +7,6 @@ import {
   CreateDateColumn,
   OneToMany
  } from 'typeorm';
-import { Length } from 'class-validator';
 import { MessageGroup } from './MessageGroup';
 export type typeMessage = 'text' | 'attachment';
 

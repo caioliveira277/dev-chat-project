@@ -3,7 +3,10 @@ import UserGroupController from 'app/controllers/UserGroupController';
 import UserController from 'app/controllers/UserController';
 import GroupController from 'app/controllers/GroupController';
 import { User } from 'app/models/User';
+import { Message } from 'app/models/Message';
 import { Exception } from 'app/utilities';
+import MessageGroupController from '~/app/controllers/MessageGroupController';
+import { MessageGroup } from '~/app/models/MessageGroup';
 
 function events (server: SocketIO.Server, socket: SocketIO.Socket) {
   console.log(`[${socket.id}] 🚀 Client is connected`);
@@ -34,6 +37,21 @@ function events (server: SocketIO.Server, socket: SocketIO.Socket) {
     try {
       const user = await UserController.update(data);
       server.to(socket.id).emit('receive-updateUser', user);
+    } catch(_error){}
+  });
+
+  /* send message */
+  socket.on('request-sendMessage', async (data: Message & MessageGroup) => {
+    try {
+      const messageSent = await MessageGroupController.create(data);
+      const groupUsers = await UserGroupController.getGroupUsers(data.group_id);
+
+      groupUsers.forEach(({user_id}) => {
+        let userSocketId = global.connectedClients[user_id];
+        if(userSocketId) {
+          server.to(userSocketId).emit('receive-sendMessage', messageSent);
+        }
+      })
     } catch(_error){}
   });
 }
