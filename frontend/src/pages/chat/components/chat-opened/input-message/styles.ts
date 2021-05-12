@@ -7,6 +7,7 @@ export const Container = styled.form`
   display: flex;
   align-items: center;
   padding-right: 20px;
+  margin-top: auto;
   & > button:first-of-type {
     margin-left: 10px;
   }
