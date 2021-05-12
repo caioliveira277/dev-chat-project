@@ -111,5 +111,5 @@ export const Mask = styled.div<Omit<IDropdown, 'emitClose'>>`
   height: 100vh;
   left: 0;
   top: 0;
-  z-index: 9;
+  z-index: 0;
 `;
