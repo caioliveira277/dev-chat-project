@@ -5,7 +5,6 @@ import AuthController from 'app/controllers/AuthController';
 import UserController from 'app/controllers/UserController';
 import GroupController from 'app/controllers/GroupController';
 import UserGroupController from 'app/controllers/UserGroupController';
-import MessageGroupController from 'app/controllers/MessageGroupController'; 
 
 const router = express.Router();
 
@@ -27,9 +26,5 @@ router.delete('/group/:id', [AuthMiddleware.authRoute, GroupController.delete]);
 /* rotas de relacinamento usuário e grupo */
 router.post('/user-group', [AuthMiddleware.authRoute, UserGroupController.create]);
 router.delete('/user-group', [AuthMiddleware.authRoute, UserGroupController.delete]);
-
-/* rotas de relacinamento grupo e mensagem */
-router.post('/message', [AuthMiddleware.authRoute, MessageGroupController.create]);
-router.get('/group-messages/:id', [AuthMiddleware.authRoute, MessageGroupController.findGroupMessages]);
 
 export default router;

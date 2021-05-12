@@ -4,9 +4,10 @@ import UserController from 'app/controllers/UserController';
 import GroupController from 'app/controllers/GroupController';
 import { User } from 'app/models/User';
 import { Message } from 'app/models/Message';
-import { Exception } from 'app/utilities';
-import MessageGroupController from '~/app/controllers/MessageGroupController';
-import { MessageGroup } from '~/app/models/MessageGroup';
+import { Group } from 'app/models/Group';
+import { Exception, handlerConnectionsIds } from 'app/utilities';
+import MessageGroupController from 'app/controllers/MessageGroupController';
+import { MessageGroup } from 'app/models/MessageGroup';
 
 function events (server: SocketIO.Server, socket: SocketIO.Socket) {
   console.log(`[${socket.id}] 🚀 Client is connected`);
@@ -47,12 +48,27 @@ function events (server: SocketIO.Server, socket: SocketIO.Socket) {
       const groupUsers = await UserGroupController.getGroupUsers(data.group_id);
 
       groupUsers.forEach(({user_id}) => {
-        let userSocketId = global.connectedClients[user_id];
+        const userSocketId = handlerConnectionsIds.getSocketId(user_id);
         if(userSocketId) {
           server.to(userSocketId).emit('receive-sendMessage', messageSent);
         }
       })
     } catch(_error){}
+  });
+
+  /* get group messages */
+  socket.on('request-groupMessages', async (groupId: number) => {
+    try {
+      const userId = handlerConnectionsIds.getUserId(socket.id);
+      
+      const groupMessages = await MessageGroupController.getGroupMessages(groupId, userId);
+
+      server.to(socket.id).emit('receive-groupMessages', groupMessages);
+
+    } catch(_error){
+      console.log(_error);
+      
+    }
   });
 }
 
