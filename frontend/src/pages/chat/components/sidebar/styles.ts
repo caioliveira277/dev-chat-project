@@ -12,6 +12,7 @@ export const Aside = styled.aside`
   overflow: hidden;
   position: relative;
   padding-bottom: 50px;
+  z-index: 1;
 `;
 
 export const ContainerPadding = styled.div`
