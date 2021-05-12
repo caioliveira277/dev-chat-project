@@ -97,6 +97,27 @@ class GroupController {
       return []
     }
   }
+
+  public async verifyUserIncluded(groupId: number, userId: number): Promise<boolean> {
+    try {
+      const userIncluded = await UserGroup.findOne({
+        where: {
+          group_id: groupId,
+          user_id: userId
+        }
+      });
+
+      if(userIncluded) {
+        return true;
+      }else {
+        return false;
+      }
+
+    } catch (error) {
+      Exception.interceptErrors(error);
+      return false;
+    }
+  }
 }
 
 export default new GroupController();
