@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
   Container,
   List
 } from './styles';
 import MessageCard from './message-card';
-import {IMessageCardProps} from './message-card/styles';
-import socket from 'adapters/ws';
 import { Session } from 'contexts';
 
-interface IMessage {
+export interface IMessage {
   message: {
+    id: number,
     body: string,
     created_at: string
   },
@@ -19,34 +18,22 @@ interface IMessage {
     profile_image: string
   }
 }
+interface IMessagesList {
+  messages: IMessage[]
+}
 
-const MessageList: React.FC = () => {
-  const [ messageList, setMessageList ] = useState<IMessageCardProps[]>([]);
+export const MessageList: React.FC<IMessagesList> = ({messages}) => {
   const { id: userId } = useContext(Session.Context);
-  
-  useEffect(() => {
-    socket.on('receive-sendMessage', (data: IMessage) => {
-      setMessageList([
-        ...messageList,
-        {
-          message: data.message.body,
-          date: data.message.created_at,
-          profile: data.user.profile_image,
-          isCurrentUserMessage: userId === data.user.id ? true:false
-        }
-      ])
-    });
-  }, []);
-
   return (
     <Container>
       <List>
-        {messageList.map((message) => (
+        {messages.map(({message, user}) => (
           <MessageCard
-            message={message.message} 
+            key={message.id}
+            message={message.body} 
             profile='http://localhost:3000/assets/images/user-profiles/profile.png'
-            date={message.date}
-            isCurrentUserMessage={message.isCurrentUserMessage}
+            date={message.created_at}
+            isCurrentUserMessage={user.id === userId ? true:false}
           />
         ))}
         {/* <MessageCard
@@ -65,5 +52,3 @@ const MessageList: React.FC = () => {
     </Container>
   );
 }
-
-export default MessageList;
