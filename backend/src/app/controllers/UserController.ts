@@ -9,7 +9,10 @@ class UserController {
     try {
       const { email, password, passwordConfirmation } = req.body;
 
-      const userExists = await User.findOne({ where: { email } });
+      const userExists = await User.findOne({
+        select: ['id'],
+        where: { email } 
+      });
       if (userExists) throw new Exception('Usuário já cadastrado', 400);
 
       if (password !== passwordConfirmation) throw new Exception('Falha na confirmação de senha', 400);
@@ -22,7 +25,6 @@ class UserController {
 
       return res.json({
         ...userToCreate,
-        password: '',
         token
       });
     } catch (error) {
@@ -54,7 +56,6 @@ class UserController {
       userToUpdate.profile_image = profile_image;
       await userToUpdate.save();
 
-      userToUpdate.password = '';
       return userToUpdate;
     } catch (error) {
       Exception.interceptErrors(error);
@@ -68,7 +69,6 @@ class UserController {
       const userToFind = await User.findOne({ where: { id } });
       if (!userToFind) throw new Exception('Usuário não encontrado', 400);
 
-      userToFind.password = '';
       return res.json(userToFind);
     } catch (error) {
       return res.status(error.code).json({ message: error.message })
