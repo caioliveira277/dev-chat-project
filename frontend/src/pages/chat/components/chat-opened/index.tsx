@@ -1,31 +1,37 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Header,
   ContainerInfo,
   Image,
   Name,
   LinkInfo,
-  ContainerEmpty,
-  TextEmtpy,
   ContainerChat
 } from './styles';
 import { BsFillInfoCircleFill } from 'react-icons/bs';
 import TextArea from './input-message';
-import MessageList from './message-list';
-import { MdChat } from 'react-icons/md';
+import { MessageList, IMessage } from './message-list';
 import { SelectedChat } from 'contexts';
+import socket from 'adapters/ws';
 
 const ChatOpened: React.FC = () => {
   const group = useContext(SelectedChat.Context);
+  const [ messageList, setMessageList ] = useState<IMessage[]>([]);
 
-  return !group?.id ? (
-    <ContainerEmpty>
-      <MdChat size='200px' color="#ACE7C9"/>
-      <TextEmtpy>
-        Selecione um grupo para inciar...
-      </TextEmtpy>
-    </ContainerEmpty>
-  ): (
+  useEffect(() => {
+    socket.emit('request-groupMessages', group.id);
+
+    socket.on('receive-groupMessages', (data: IMessage[]) => {
+      console.log(data);
+      
+      setMessageList(data);
+    });
+
+    socket.on('receive-sendMessage', (data: IMessage) => {
+      setMessageList([...messageList, data]);
+    });
+  }, []);
+
+  return (
     <ContainerChat animate={group?.id ? 'visible':'hidden'}>
       <Header color={group?.color}>
         <ContainerInfo>
@@ -39,7 +45,7 @@ const ChatOpened: React.FC = () => {
           <BsFillInfoCircleFill size='26px' />
         </LinkInfo>
       </Header>
-      <MessageList />
+      <MessageList messages={messageList} />
       <TextArea />
     </ContainerChat>
   );
