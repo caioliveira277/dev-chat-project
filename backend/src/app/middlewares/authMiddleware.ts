@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { Exception } from 'app/utilities';
+import { Exception, handlerConnectionsIds } from 'app/utilities';
 import jwt from 'jsonwebtoken';
 
 interface ITokenPayload {
-  id: string,
+  id: number,
   iat: number,
   exp: number
 };
@@ -31,7 +31,7 @@ export default class AuthMiddleware {
       const payload = AuthMiddleware.tokenValidation(authorization);
       
       const { id } = payload;
-      req.userId = Number(id);
+      req.userId = id;
 
       next();
     } catch (error) {
@@ -46,10 +46,7 @@ export default class AuthMiddleware {
       
       const {id: userId} = AuthMiddleware.tokenValidation(authorization);
 
-      global.connectedClients = {
-        ...global.connectedClients,
-        [userId]: socket.id
-      };
+      handlerConnectionsIds.addNewConnection(userId, socket.id);
       
       return next();
     } catch (error) {
