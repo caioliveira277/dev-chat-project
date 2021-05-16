@@ -35,8 +35,7 @@ class AuthController {
     try {
       const { userId } = req;
 
-      const userExists = await User.findOne({ 
-        select: ['id'],
+      const userExists = await User.findOne({
         where: { id: userId } 
       });
       if(!userExists) throw new Exception('Usuário não encontrado', 400);
