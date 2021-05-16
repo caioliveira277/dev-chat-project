@@ -25,7 +25,12 @@ const ChatOpened: React.FC = () => {
     });
 
     socket.on('receive-sendMessage', (data: IMessage) => {
-      setMessageList([...messageList, data]);
+      setMessageList((value) => {
+        return [...value, {
+          message: data.message,
+          user: data.user
+        }];
+      });
     });
   }, []);
 

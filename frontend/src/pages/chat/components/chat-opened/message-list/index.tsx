@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import {
   Container,
   List
@@ -25,9 +25,15 @@ interface IMessagesList {
 
 export const MessageList: React.FC<IMessagesList> = ({messages}) => {
   const { id: userId } = useContext(Session.Context);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    listRef.current?.scrollTo(0, listRef.current?.scrollHeight);
+  }, [messages]);
+
   return (
     <Container>
-      <List>
+      <List ref={listRef}>
         {messages.map(({message, user}) => (
           <MessageCard
             key={message.id}
@@ -37,18 +43,6 @@ export const MessageList: React.FC<IMessagesList> = ({messages}) => {
             isCurrentUserMessage={user.id === userId ? true:false}
           />
         ))}
-        {/* <MessageCard
-          message="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," 
-          profile='http://localhost:3000/assets/images/user-profiles/profile.png'
-          date='22/12 10:45hrs'
-          isCurrentUserMessage={false}
-        />
-        <MessageCard
-          message="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," 
-          profile='http://localhost:3000/assets/images/user-profiles/user1.png'
-          date='22/12 10:45hrs'
-          isCurrentUserMessage={true}
-        /> */}
       </List>
     </Container>
   );
