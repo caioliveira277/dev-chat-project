@@ -1,11 +1,12 @@
-import { Request, Response } from 'express';
 import { Group } from 'app/models/Group';
 import { User } from 'app/models/User';
 import { Message } from 'app/models/Message';
 import { MessageGroup } from 'app/models/MessageGroup';
 import { Exception } from 'app/utilities';
+import UserGroupController from './UserGroupController';
+import { getRepository } from 'typeorm';
 
-class GroupController {
+class MessageGroupController {
   public async create({
     body,
     user_sender_id,
@@ -30,30 +31,39 @@ class GroupController {
       messageGroupAssociation.message = messageToCreate;
       await messageGroupAssociation.save();
 
-      messageGroupAssociation.user.password = '';
       return messageGroupAssociation;
     } catch (error) {
       Exception.interceptErrors(error);
     }
   }
 
-  public async findGroupMessages(req: Request, res: Response): Promise<any> {
+  public async getGroupMessages(group_id: number, user_id: number): Promise<any> {
     try {
-      const { id } = req.params;
+      const group = await Group.findOne(group_id);
+      const userIncluded = await UserGroupController.verifyUserIncluded(group_id, user_id);
+
+      if (!group) throw new Exception('Groupo não encontrado', 400);
+      if (!userIncluded) throw new Exception('O usuário não está nesse grupo', 400);
 
       const groupMessages = await MessageGroup.find({
-        select: ['message_id'],
+        select: ['group_id'],
         where: {
-          group_id: id
+          group_id
         },
-        relations: ['message'],
+        join: {
+          alias: 'message',
+          leftJoinAndSelect: {
+            user: 'message.user'
+          }
+        },
+        relations: ['message', 'user'],
       });
-
-      return res.json(groupMessages);
+      
+      return groupMessages;
     } catch (error) {
-      return res.status(error.code).json({ message: error.message })
+      Exception.interceptErrors(error);
     }
   }
 }
 
-export default new GroupController();
+export default new MessageGroupController();
