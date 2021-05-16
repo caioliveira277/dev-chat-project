@@ -24,3 +24,13 @@ export const dynamicTextColor = ({
 }: StyledProps<IdynamicTextColor>): string => {
   return textColorTheme ? theme.colors[textColorTheme] : textCustomColor
 }
+
+export const datetimeToPtBr = (datetimeString: string): string => {
+  const date = new Date(datetimeString);
+
+  return new Intl.DateTimeFormat('pt-br', {
+    year: 'numeric', month: 'numeric', day: 'numeric',
+    hour: 'numeric', minute: 'numeric', second: 'numeric',
+    hour12: false
+  }).format(date);
+};

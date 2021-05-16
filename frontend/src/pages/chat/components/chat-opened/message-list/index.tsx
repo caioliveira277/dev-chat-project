@@ -5,6 +5,7 @@ import {
 } from './styles';
 import MessageCard from './message-card';
 import { Session } from 'contexts';
+import { datetimeToPtBr } from 'components/utils';
 
 export interface IMessage {
   message: {
@@ -32,7 +33,7 @@ export const MessageList: React.FC<IMessagesList> = ({messages}) => {
             key={message.id}
             message={message.body} 
             profile='http://localhost:3000/assets/images/user-profiles/profile.png'
-            date={message.created_at}
+            date={datetimeToPtBr(message.created_at)}
             isCurrentUserMessage={user.id === userId ? true:false}
           />
         ))}

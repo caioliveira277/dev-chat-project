@@ -21,8 +21,6 @@ const ChatOpened: React.FC = () => {
     socket.emit('request-groupMessages', group.id);
 
     socket.on('receive-groupMessages', (data: IMessage[]) => {
-      console.log(data);
-      
       setMessageList(data);
     });
 
