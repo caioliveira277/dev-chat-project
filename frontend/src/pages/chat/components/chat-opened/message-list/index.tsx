@@ -38,7 +38,7 @@ export const MessageList: React.FC<IMessagesList> = ({messages}) => {
           <MessageCard
             key={message.id}
             message={message.body} 
-            profile='http://localhost:3000/assets/images/user-profiles/profile.png'
+            profile={`${process.env.REACT_APP_ASSETS_USERS_PROFILES}/${user.profile_image || 'profile.png'}`}
             date={datetimeToPtBr(message.created_at)}
             isCurrentUserMessage={user.id === userId ? true:false}
           />
