@@ -30,7 +30,7 @@ export const datetimeToPtBr = (datetimeString: string): string => {
 
   return new Intl.DateTimeFormat('pt-br', {
     year: 'numeric', month: 'numeric', day: 'numeric',
-    hour: 'numeric', minute: 'numeric', second: 'numeric',
+    hour: 'numeric', minute: 'numeric', second: undefined,
     hour12: false
   }).format(date);
 };
