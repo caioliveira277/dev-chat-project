@@ -24,6 +24,7 @@ export const ContainerChat = styled(motion.div).attrs(() => ({
   display: flex;
   flex-direction: column;
   padding-left: 20px;
+  scroll-behavior: smooth;
 `;
 
 export interface IHeaderProps {
