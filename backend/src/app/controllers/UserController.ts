@@ -74,22 +74,6 @@ class UserController {
       return res.status(error.code).json({ message: error.message })
     }
   }
-
-  public async delete(req: Request, res: Response): Promise<any> {
-    try {
-      const id = req.userId;
-
-      const userToDelete = await User.findOne({ where: { id } });
-      if (!userToDelete) throw new Exception('Usuário não encontrado', 400);
-
-      const isDeleted = await userToDelete.remove();
-      if (!isDeleted) throw new Exception('Falha ao remover usuário', 500);
-
-      return res.json({ message: 'Usuário deletado com sucesso' })
-    } catch (error) {
-      return res.status(error.code).json({ message: error.message })
-    }
-  }
 }
 
 export default new UserController();

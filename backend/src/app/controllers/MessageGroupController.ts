@@ -4,7 +4,6 @@ import { Message } from 'app/models/Message';
 import { MessageGroup } from 'app/models/MessageGroup';
 import { Exception } from 'app/utilities';
 import UserGroupController from './UserGroupController';
-import { getRepository } from 'typeorm';
 
 class MessageGroupController {
   public async create({
