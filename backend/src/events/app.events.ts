@@ -1,13 +1,14 @@
-import SocketIO from 'socket.io';
-import UserGroupController from 'app/controllers/UserGroupController';
-import UserController from 'app/controllers/UserController';
-import GroupController from 'app/controllers/GroupController';
+import SocketIO from 'socket.io';7
+
 import { User } from 'app/models/User';
 import { Message } from 'app/models/Message';
-import { Group } from 'app/models/Group';
-import { Exception, handlerConnectionsIds } from 'app/utilities';
-import MessageGroupController from 'app/controllers/MessageGroupController';
 import { MessageGroup } from 'app/models/MessageGroup';
+
+import UserGroupController from 'app/controllers/UserGroupController';
+import UserController from 'app/controllers/UserController';
+import MessageGroupController from 'app/controllers/MessageGroupController';
+
+import { Exception, handlerConnectionsIds } from 'app/utilities';
 
 function events (server: SocketIO.Server, socket: SocketIO.Socket) {
   console.log(`[${socket.id}] 🚀 Client is connected`);
@@ -28,7 +29,7 @@ function events (server: SocketIO.Server, socket: SocketIO.Socket) {
   /* get available groups */
   socket.on('request-availableGroups', async () => {
     try {
-      const groups = await GroupController.getAll();
+      const groups = await UserGroupController.getAvailableGroupsAndUsers();
       server.to(socket.id).emit('receive-availableGroups', groups);
     } catch(_error){}
   });
@@ -67,7 +68,6 @@ function events (server: SocketIO.Server, socket: SocketIO.Socket) {
 
     } catch(_error){
       console.log(_error);
-      
     }
   });
 }
