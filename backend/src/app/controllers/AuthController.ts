@@ -16,7 +16,7 @@ class AuthController {
       });
       if(!userExists) throw new Exception('Usuário não encontrado', 400);
   
-      const isValidPassword = await bcrypt.compare(password, userExists.password);
+      const isValidPassword = await bcrypt.compare(password.toString(), userExists.password);
       if(!isValidPassword) throw new Exception('Senha inválida', 400);
   
       const token = jwt.sign({ id: userExists.id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
