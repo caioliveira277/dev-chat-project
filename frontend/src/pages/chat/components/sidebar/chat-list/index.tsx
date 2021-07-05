@@ -10,7 +10,6 @@ import {
   ContainerSearch
 } from './styles';
 import { SelectedChat } from 'contexts';
-import { IGroupResponse } from 'axios';
 import { Inputs } from 'components';
 
 export interface IListData {

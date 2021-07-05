@@ -11,7 +11,6 @@ import {
   EnterButton
 } from './styles';
 import { SelectedChat } from 'contexts';
-import { IGroupResponse } from 'axios';
 import { Inputs } from 'components';
 
 interface IListData {

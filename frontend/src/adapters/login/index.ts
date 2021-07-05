@@ -1,4 +1,4 @@
-import { AxiosResponse, IUserResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import api from 'adapters/xhr';
 
 export interface IAuthEntries {

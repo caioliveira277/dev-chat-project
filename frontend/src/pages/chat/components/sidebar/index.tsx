@@ -21,7 +21,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { MdChat, MdSettings } from 'react-icons/md';
 import { FaLayerGroup } from 'react-icons/fa';
 import { Session } from 'contexts';
-import { IGroupResponse } from 'axios';
 import Dropdown from './dropdown';
 import Settings from './settings';
 import Groups from './groups';

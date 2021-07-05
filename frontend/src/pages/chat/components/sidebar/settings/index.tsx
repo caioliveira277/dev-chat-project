@@ -16,7 +16,6 @@ import { MdModeEdit } from 'react-icons/md';
 import { IUpdateUser } from 'adapters/chat/user';
 import { toast } from 'react-toastify';
 import socket from 'adapters/ws';
-import { IUserResponse } from 'axios';
 
 const Settings: React.FC = () => {
   const {

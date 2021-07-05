@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react';
-import { IUserResponse } from 'axios';
 
 interface ISessionContext extends IUserResponse {
   authenticated?: boolean;
