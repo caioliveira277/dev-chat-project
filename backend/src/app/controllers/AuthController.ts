@@ -10,22 +10,24 @@ class AuthController {
     try {
       const { email, password } = req.body;
   
-      const userExists = await User.findOne({ where: { email } });
+      const userExists = await User.findOne({
+        select: ['id', 'name', 'password', 'profile_image', 'profile_status'],
+        where: { email }
+      });
       if(!userExists) throw new Exception('Usuário não encontrado', 400);
   
-      const isValidPassword = await bcrypt.compare(password, userExists.password);
+      const isValidPassword = await bcrypt.compare(password.toString(), userExists.password);
       if(!isValidPassword) throw new Exception('Senha inválida', 400);
   
       const token = jwt.sign({ id: userExists.id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
   
       return res.json({
         ...userExists,
-        password: '',
+        password: null,
         token
       });
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message });
     }
   }
 
@@ -33,19 +35,19 @@ class AuthController {
     try {
       const { userId } = req;
 
-      const userExists = await User.findOne({ where: { id: userId } });
+      const userExists = await User.findOne({
+        where: { id: userId } 
+      });
       if(!userExists) throw new Exception('Usuário não encontrado', 400);
   
       const token = jwt.sign({ id: userExists.id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
   
       return res.json({
         ...userExists,
-        password: '',
         token
       });
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      return res.status(error.code).json({ message: error.message })
     }
   }
 }

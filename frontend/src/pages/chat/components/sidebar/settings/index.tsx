@@ -1,4 +1,4 @@
-import React, { useContext, useState, ChangeEventHandler, FormEventHandler } from 'react';
+import React, { useContext, useState, ChangeEventHandler, FormEventHandler, useEffect } from 'react';
 import {
   Container,
   Title,
@@ -13,8 +13,9 @@ import {
 } from 'components';
 import { Session } from 'contexts';
 import { MdModeEdit } from 'react-icons/md';
-import { User, IUpdateUser } from 'adapters/chat/user';
+import { IUpdateUser } from 'adapters/chat/user';
 import { toast } from 'react-toastify';
+import socket from 'adapters/ws';
 
 const Settings: React.FC = () => {
   const {
@@ -39,17 +40,15 @@ const Settings: React.FC = () => {
 
   const handlerSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    const user = new User(id);
-    
-    user.updateUser(updateParms)
-      .then(({data}) => {
-        setSession({...data, authenticated: true});
-        toast.success('🤘 Perfil atualizado com sucesso!');
-      })
-      .catch(({response}) => {
-        toast.error(`❕ ${response.data.message}`);
-      })
+    socket.emit('request-updateUser', {id, ...updateParms});
   }
+
+  useEffect(() => {
+    socket.on('receive-updateUser', (data: IUserResponse) => {
+      setSession({...data, authenticated: true});
+      toast.success('🤘 Perfil atualizado com sucesso!');
+    });
+  }, []);
 
 
   return (

@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react';
-import { IGroupResponse } from 'axios';
 
 interface ISelectedChatContext extends IGroupResponse {
   setSelectedChat: (parms: Omit<ISelectedChatContext, 'setSelectedChat'>) => void;

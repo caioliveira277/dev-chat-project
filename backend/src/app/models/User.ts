@@ -29,7 +29,7 @@ export class User extends BaseEntity {
   @Column()
   email: string;
   
-  @Column()
+  @Column({select: false})
   password: string;
   
   @Length(5, 30)
@@ -53,11 +53,28 @@ export class User extends BaseEntity {
   messageGroup!: MessageGroup[];
 
   @BeforeInsert()
-  @BeforeUpdate()
-  validate() {
+  generateHashPassword() {
     this.password = bcrypt.hashSync(this.password, 8);
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  validateName() {
     if(!(new RegExp(/^[a-z]{2,}\ [a-z]{2,}/gi).test(this.name))) {
       throw new Exception("Informe o seu nome e sobrenome", 400);
     }
   }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  capitalizeName() {
+    const splitName = this.name.split(' ');
+
+    for (let index = 0; index < splitName.length; index++) {
+      const capitalized = splitName[index].charAt(0).toUpperCase() + String(splitName[index].slice(1));
+      splitName[index] = capitalized;
+    }
+    this.name = splitName.join(' ');
+  }
+
 }

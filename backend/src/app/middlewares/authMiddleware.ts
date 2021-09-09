@@ -1,35 +1,56 @@
 import { Request, Response, NextFunction } from 'express';
-import { Exception } from 'app/utilities';
+import { Exception, handlerConnectionsIds } from 'app/utilities';
 import jwt from 'jsonwebtoken';
 
 interface ITokenPayload {
-  id: string,
+  id: number,
   iat: number,
   exp: number
 };
 
-export default function authMiddleware(req: Request, res: Response, next: NextFunction) {
-  try {
-    const { authorization } = req.headers;
+export default class AuthMiddleware {
+  private static tokenValidation(token: string): ITokenPayload {
+    const tokenFormated = token.replace('Bearer', '').trim();
 
-    if(!authorization) throw new Exception('Falha de autenticação', 401);
-    const token = authorization.replace('Bearer', '').trim();
-
-    let dataJwt
+    let dataJwt;
     try {
-      dataJwt = jwt.verify(token, process.env.JWT_SECRET!, {
-        ignoreExpiration: process.env.NODE_ENV !== 'development' ? false:true
+      dataJwt = jwt.verify(tokenFormated, process.env.JWT_SECRET!, {
+        ignoreExpiration: process.env.NODE_ENV === 'development' ? true : false
       });
-    } catch(_error) {
-      throw new Exception('Sessão expirada', 401);
+      return dataJwt as ITokenPayload;
+    } catch (_error) {
+      throw new Exception('Token inválido', 401);
     }
-    
-    const { id } = dataJwt as ITokenPayload;
-    req.userId = Number(id);
+  }
 
-    next();
-  } catch (error) {
-    const { code, message } = Exception.interceptErrors(error);
-    return res.status(code).json({ message })
+  public static authRoute(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { authorization } = req.headers;
+      if (!authorization) throw new Exception('Falha de autenticação', 401);
+      
+      const payload = AuthMiddleware.tokenValidation(authorization);
+      
+      const { id } = payload;
+      req.userId = id;
+
+      next();
+    } catch (error) {
+      return res.status(error.code).json({ message: error.message })
+    }
+  }
+
+  public static authSocket(socket: any, next: (err?: any) => void): void {
+    try {
+      const { authorization } = socket.handshake.auth;
+      if (!authorization) throw new Exception('Falha de autenticação', 401);
+      
+      const {id: userId} = AuthMiddleware.tokenValidation(authorization);
+
+      handlerConnectionsIds.addNewConnection(userId, socket.id);
+      
+      return next();
+    } catch (error) {
+      return next(new Error(error));
+    }
   }
 }

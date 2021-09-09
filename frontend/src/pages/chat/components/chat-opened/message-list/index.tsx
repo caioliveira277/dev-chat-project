@@ -1,29 +1,49 @@
-import React from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import {
   Container,
   List
 } from './styles';
 import MessageCard from './message-card';
+import { Session } from 'contexts';
+import { datetimeToPtBr } from 'components/utils';
 
-const MessageList: React.FC = () => {
+export interface IMessage {
+  message: {
+    id: number,
+    body: string,
+    created_at: string
+  },
+  user: {
+    id: number,
+    name: string,
+    profile_image: string
+  }
+}
+interface IMessagesList {
+  messages: IMessage[]
+}
+
+export const MessageList: React.FC<IMessagesList> = ({messages}) => {
+  const { id: userId } = useContext(Session.Context);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    listRef.current?.scrollTo(0, listRef.current?.scrollHeight);
+  }, [messages]);
+
   return (
     <Container>
-      <List>
-        <MessageCard 
-          message="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," 
-          profile='http://localhost:3000/assets/images/user-profiles/profile.png'
-          date='22/12 10:45hrs'
-          isCurrentUserMessage={false}
-        />
-        <MessageCard
-          message="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," 
-          profile='http://localhost:3000/assets/images/user-profiles/user1.png'
-          date='22/12 10:45hrs'
-          isCurrentUserMessage={true}
-        />
+      <List ref={listRef}>
+        {messages.map(({message, user}) => (
+          <MessageCard
+            key={message.id}
+            message={message.body} 
+            profile={`${process.env.REACT_APP_ASSETS_USERS_PROFILES}/${user.profile_image || 'profile.png'}`}
+            date={datetimeToPtBr(message.created_at)}
+            isCurrentUserMessage={user.id === userId ? true:false}
+          />
+        ))}
       </List>
     </Container>
   );
 }
-
-export default MessageList;

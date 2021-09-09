@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Aside,
   UserProfile,
@@ -16,22 +16,24 @@ import {
 import { IoIosArrowDown } from 'react-icons/io';
 import { ThemeContext } from 'styled-components';
 import { darken } from 'polished';
-import ChatList from './chat-list';
+import { ChatList } from './chat-list';
 import { useHistory, useLocation } from 'react-router-dom';
-import { MdChat, MdStar, MdSettings } from 'react-icons/md';
+import { MdChat, MdSettings } from 'react-icons/md';
+import { FaLayerGroup } from 'react-icons/fa';
 import { Session } from 'contexts';
-import { Group } from 'adapters/chat/group';
-import { IGroupResponse } from 'axios';
 import Dropdown from './dropdown';
 import Settings from './settings';
+import Groups from './groups';
 
-const Sidebar: React.FC = () => {
-  const [ groupList, setGroupList ] = useState<IGroupResponse[]>([]);
+export interface ISidebar {
+  groupList: {group: IGroupResponse}[];
+  availableGroupList: IGroupResponse[];
+}
+export const Sidebar: React.FC<ISidebar> = ({groupList, availableGroupList}) => {
   const [ showDropdown, setShowDropdown ] = useState<boolean>(false);
   const history = useHistory();
   const theme = useContext(ThemeContext);
   const { 
-    id,
     name, 
     profile_status,
     profile_image
@@ -41,18 +43,6 @@ const Sidebar: React.FC = () => {
     return new URLSearchParams(useLocation().search);
   }
   const tabQuery = useQuery().get('tab') || 'chats';
-
-  useEffect(() => {
-    const group = new Group({userId: id});
-    
-    group.getUserGroups()
-      .then(({data}) => {
-        setGroupList(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-  }, [id]);
 
   const handlerDropdown = (state: boolean): void => {
     setShowDropdown(state);
@@ -82,8 +72,8 @@ const Sidebar: React.FC = () => {
       {
         tabQuery === 'chats' ? (
           <ChatList data={groupList} />
-        ) : tabQuery === 'favoritos' ? (
-            <></>
+        ) : tabQuery === 'grupos' ? (
+          <Groups data={availableGroupList} />
         ) : tabQuery === 'ajustes' ? (
           <Settings />
         ) : null
@@ -97,11 +87,11 @@ const Sidebar: React.FC = () => {
           <MdChat size='26px' />
         </CustomLinkTab>
         <CustomLinkTab 
-          onClick={() => history.push('/chat?tab=favoritos')}
-          name='favoritos'
+          onClick={() => history.push('/chat?tab=grupos')}
+          name='grupos'
           activeTab={tabQuery}
         >
-          <MdStar size='26px' />
+          <FaLayerGroup size='20px' />
         </CustomLinkTab>
         <CustomLinkTab 
           onClick={() => history.push('/chat?tab=ajustes')}
@@ -114,5 +104,3 @@ const Sidebar: React.FC = () => {
     </Aside>
   );
 }
-
-export default Sidebar;

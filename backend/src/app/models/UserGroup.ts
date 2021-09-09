@@ -36,4 +36,10 @@ export class UserGroup extends BaseEntity {
   @JoinColumn({ name: 'group_id' })
   group!: Group;
 
+  static async getGroupAndUsers(): Promise<Omit<UserGroup, 'user'>[]> {
+    return this
+      .createQueryBuilder('userGroup')
+      .leftJoinAndSelect('userGroup.group', 'group')
+      .getMany()
+  }
 }

@@ -12,6 +12,7 @@ export const Aside = styled.aside`
   overflow: hidden;
   position: relative;
   padding-bottom: 50px;
+  z-index: 1;
 `;
 
 export const ContainerPadding = styled.div`
@@ -73,6 +74,9 @@ export interface ICustomLinkTab {
 }
 export const CustomLinkTab = styled.a<ICustomLinkTab>`
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 10px 0px;
   color: ${({theme}) => theme.colors.primary};
@@ -96,14 +100,14 @@ export const ContainerIcon = styled(motion.div).attrs(() => ({
     rotateDown: { 
       rotate: 0,
       transition: {
-        delay: 0.3,
+        delay: 0.1,
         duration: 0.2,
       },
     },
     rotateUp: { 
       rotate: 180,
       transition: { 
-        delay: 0.2,
+        delay: 0.1,
         duration: 0.2,
       },
     },

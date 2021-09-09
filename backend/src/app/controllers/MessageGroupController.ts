@@ -1,15 +1,18 @@
-import { Request, Response } from 'express';
 import { Group } from 'app/models/Group';
 import { User } from 'app/models/User';
 import { Message } from 'app/models/Message';
 import { MessageGroup } from 'app/models/MessageGroup';
 import { Exception } from 'app/utilities';
+import UserGroupController from './UserGroupController';
 
-class GroupController {
-  public async create(req: Request, res: Response): Promise<any> {
+class MessageGroupController {
+  public async create({
+    body,
+    user_sender_id,
+    group_id,
+    type
+  }: Message & MessageGroup): Promise<any> {
     try {
-      const { group_id, user_sender_id, body } = req.body;
-
       const group = await Group.findOne(group_id);
       const user = await User.findOne(user_sender_id);
 
@@ -18,7 +21,7 @@ class GroupController {
 
       const messageToCreate = new Message();
       messageToCreate.body = body;
-      messageToCreate.type = 'text';
+      messageToCreate.type = type;
       await messageToCreate.save();
 
       const messageGroupAssociation = new MessageGroup();
@@ -27,31 +30,39 @@ class GroupController {
       messageGroupAssociation.message = messageToCreate;
       await messageGroupAssociation.save();
 
-      return res.json(messageGroupAssociation.id);
+      return messageGroupAssociation;
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      Exception.interceptErrors(error);
     }
   }
 
-  public async findGroupMessages(req: Request, res: Response): Promise<any> {
+  public async getGroupMessages(group_id: number, user_id: number): Promise<any> {
     try {
-      const { id } = req.params;
+      const group = await Group.findOne(group_id);
+      const userIncluded = await UserGroupController.verifyUserIncluded(group_id, user_id);
+
+      if (!group) throw new Exception('Groupo não encontrado', 400);
+      if (!userIncluded) throw new Exception('O usuário não está nesse grupo', 400);
 
       const groupMessages = await MessageGroup.find({
-        select: ['message_id'],
+        select: ['group_id'],
         where: {
-          group_id: id
+          group_id
         },
-        relations: ['message'],
+        join: {
+          alias: 'message',
+          leftJoinAndSelect: {
+            user: 'message.user'
+          }
+        },
+        relations: ['message', 'user'],
       });
-
-      return res.json(groupMessages);
+      
+      return groupMessages;
     } catch (error) {
-      const { code, message } = Exception.interceptErrors(error);
-      return res.status(code).json({ message })
+      Exception.interceptErrors(error);
     }
   }
 }
 
-export default new GroupController();
+export default new MessageGroupController();
